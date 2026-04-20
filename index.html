@@ -467,7 +467,7 @@ console.warn = (...args) => {
           <div style="border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:18px;margin-bottom:20px;background:rgba(239,68,68,0.03);">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
               <div style="width:3px;height:22px;background:var(--red);border-radius:2px;flex-shrink:0;"></div>
-              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#fca5a5;">Compromissos com Clientes em Risco</div>
+              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#b91c1c;">Compromissos com Clientes em Risco</div>
               <div style="font-size:11px;color:var(--muted);margin-left:4px;">Tickets ativos com SLA violado</div>
             </div>
 
@@ -535,11 +535,11 @@ console.warn = (...args) => {
                 <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#ef4444;" id="exec-dev-oldest">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Mais Antigo (dias)</div>
               </div>
-              <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:8px;padding:14px 16px;">
-                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#10b981;" id="exec-dev-stale">—</div>
+              <div style="background:rgba(30,58,95,0.08);border:1px solid rgba(30,58,95,0.2);border-radius:8px;padding:14px 16px;">
+                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#2e5fa3;" id="exec-dev-stale">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Sem Update há +15d</div>
               </div>
-              <div style="background:rgba(0,194,255,0.08);border:1px solid rgba(0,194,255,0.2);border-radius:8px;padding:14px 16px;">
+              <div style="background:rgba(30,58,95,0.08);border:1px solid rgba(30,58,95,0.2);border-radius:8px;padding:14px 16px;">
                 <div style="font-family:'Space Mono',monospace;font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3;word-break:break-word;" id="exec-dev-worst-team">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Time Mais Ofensor</div>
               </div>
@@ -1227,7 +1227,7 @@ function mkDonutWithLines(id, labels, values, colors) {
         const tw = c.measureText(label).width;
         const pad = 2;
         const bx = isRight ? tx - pad : tx - tw - pad;
-        c.fillStyle = 'rgba(248,250,252,0.92)';
+        c.fillStyle = 'rgba(255,255,255,0.95)';
         c.fillRect(bx, y3 - 7, tw + pad * 2, 14);
         c.fillStyle = '#1e293b';
         c.fillText(label, tx, y3);
@@ -1285,10 +1285,10 @@ function mkChart(id, type, labels, datasets, opts={}) {
         const pct = total > 0 ? ((ctx.dataset.data[ctx.dataIndex] / total) * 100) : 0;
         return pct >= 5;
       },
-      color: '#e2e8f0',
+      color: '#ffffff',
       font: { size: 9, weight: '700' },
-      textShadowBlur: 4,
-      textShadowColor: 'rgba(0,0,0,0.9)',
+      textShadowBlur: 6,
+      textShadowColor: 'rgba(0,0,0,0.95)',
       formatter: (value, ctx) => {
         const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
         const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
@@ -1307,28 +1307,30 @@ function mkChart(id, type, labels, datasets, opts={}) {
       display: true,
       color: '#1a2535',
       font: { size: 10, weight: '600' },
-      anchor: isHorizontal ? 'end' : 'center',
-      align: isHorizontal ? 'right' : 'center',
-      offset: 0,
+      anchor: 'end',
+      align: isHorizontal ? 'right' : 'top',
+      offset: 4,
+      backgroundColor: 'rgba(255,255,255,0.0)',
       formatter: (value, ctx) => {
         if (value === 0 || value === null || value === undefined) return '';
         const dataset = ctx.chart.data.datasets[ctx.datasetIndex].data;
         const total = dataset.reduce((a, b) => a + (b || 0), 0);
         const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-        // For vertical bars: show value + pct stacked inside bar
-        if (!isHorizontal) return value + '\n(' + pct + '%)';
-        return `${value} (${pct}%)`;
+        return value + ' (' + pct + '%)';
       },
       clip: false,
     };
   } else if (isLine) {
     datalabelsConfig = {
       display: true,
-      color: '#475569',
-      font: { size: 9, weight: '600' },
+      color: '#1a2535',
+      font: { size: 9, weight: '700' },
       anchor: 'end',
       align: 'bottom',
       offset: 4,
+      backgroundColor: 'rgba(255,255,255,0.75)',
+      borderRadius: 2,
+      padding: { top: 1, bottom: 1, left: 3, right: 3 },
       formatter: (value) => value === 0 || value === null ? '' : value,
       clip: false,
     };
@@ -1343,9 +1345,9 @@ function mkChart(id, type, labels, datasets, opts={}) {
     options: {
       responsive: true,
       maintainAspectRatio: true,
-      layout: { padding: { top: isBar ? 4 : isDoughnut ? 24 : 0, bottom: isDoughnut ? 24 : 0, left: isDoughnut ? 24 : 0, right: opts.indexAxis === 'y' ? 80 : isDoughnut ? 24 : 0 } },
+      layout: { padding: { top: isBar ? 28 : isDoughnut ? 24 : 0, bottom: isDoughnut ? 24 : 0, left: isDoughnut ? 24 : 0, right: opts.indexAxis === 'y' ? 90 : isDoughnut ? 24 : 0 } },
       plugins: {
-        legend: { labels: { color: '#475569', font: { size: 11 } } },
+        legend: { display: isBar && datasets.length === 1 ? false : true, labels: { color: '#475569', font: { size: 11 } } },
         tooltip: { backgroundColor: '#1e293b', borderColor: '#e2e8f0', borderWidth: 1, titleColor: '#f8fafc', bodyColor: '#94a3b8' },
         datalabels: datalabelsConfig,
       },
@@ -1462,11 +1464,14 @@ function renderTab0(data) {
       legend: { display: false },
       datalabels: {
         display: true,
-        color: '#1e293b',
+        color: '#1a2535',
         font: { size: 10, weight: '700' },
         anchor: 'end',
         align: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'top' : 'bottom',
         offset: 2,
+        backgroundColor: 'rgba(255,255,255,0.82)',
+        borderRadius: 2,
+        padding: { top: 1, bottom: 1, left: 3, right: 3 },
         clip: false,
         formatter: (value, ctx) => {
           if (value === 0) return '0%';
@@ -1746,7 +1751,7 @@ function renderTab4(data) {
     // Semaphore: overPct = extra days / SLA limit (ex: 10d over 10d limit = 1.0)
     // >= 1.0 red (atraso >= 100% do limite), >= 0.3 yellow (30%+), else green
     const overPct = r.slaLimitDays > 0 ? (over / r.slaLimitDays) : 0;
-    const semColor = overPct >= 1.0 ? '#ef4444' : overPct >= 0.3 ? '#f59e0b' : '#10b981';
+    const semColor = overPct >= 1.0 ? '#dc2626' : overPct >= 0.3 ? '#d97706' : '#2e5fa3';
     const semIcon = overPct >= 1.0 ? '' : overPct >= 0.3 ? '' : '';
     const prioColor = {urgent:'tag-red',high:'tag-yellow',medium:'tag-blue',low:'tag-gray'}[r.prioridade]||'tag-gray';
     const rowStyle = stale ? 'background:rgba(239,68,68,0.12);' : '';
@@ -1847,7 +1852,7 @@ function renderTab4(data) {
     const stale = r.lastUpdateDays > 15;
     const urgentAge = r.ageDays > 60;
     const rowStyle = stale ? 'background:rgba(239,68,68,0.1);' : urgentAge ? 'background:rgba(245,158,11,0.06);' : '';
-    const ageColor = r.ageDays > 90 ? '#ef4444' : r.ageDays > 30 ? '#f59e0b' : '#10b981';
+    const ageColor = r.ageDays > 90 ? '#dc2626' : r.ageDays > 30 ? '#d97706' : '#2e5fa3';
     const teamLabel = r.timeDev || '<span style="color:var(--muted);font-size:10px;">—</span>';
     return `<tr style="${rowStyle}">
       <td><span style="font-family:'Space Mono',monospace;font-size:11px;">#${r.id}</span></td>
