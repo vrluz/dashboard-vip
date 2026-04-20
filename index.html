@@ -156,6 +156,7 @@ console.warn = (...args) => {
     <div style="display:flex;align-items:center;gap:12px;">
       <span class="pulse-dot"></span>
       <span style="font-size:11px;color:var(--muted);" id="last-update">—</span>
+      <span style="font-size:11px;color:var(--muted);margin-left:8px;" id="data-status">Carregando...</span>
       <label class="upload-zone" style="padding:6px 12px;border-radius:6px;font-size:12px;color:var(--muted);border-style:dashed;border-width:1px;cursor:pointer;" title="Importar CSV">
         📂 Importar CSV
         <input type="file" id="csv-upload" accept=".csv">
@@ -1780,6 +1781,7 @@ document.getElementById('csv-upload').addEventListener('change', function(e) {
       filteredData = [...allData];
       populateFilters(allData);
       renderAll();
+      updateDataStatus('manual', '');
       document.querySelector('.upload-zone').style.borderColor = 'var(--green)';
       setTimeout(() => document.querySelector('.upload-zone').style.borderColor = '', 2000);
     },
@@ -1790,16 +1792,58 @@ document.getElementById('csv-upload').addEventListener('change', function(e) {
 });
 
 // ============================================================
+// AUTO-LOAD CSV FROM GITHUB
+// ============================================================
+const CSV_URL = 'https://raw.githubusercontent.com/vrluz/dashboard-vip/main/data/tickets.csv';
+
+function loadFromURL(url) {
+  return fetch(url + '?nocache=' + Date.now())
+    .then(res => {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.text();
+    })
+    .then(text => {
+      const results = Papa.parse(text, { header: true, skipEmptyLines: true });
+      const parsed = parseCSVRows(results.data);
+      allData = parsed.map(enrichRow);
+      filteredData = [...allData];
+      populateFilters(allData);
+      renderAll();
+      updateDataStatus('auto', url);
+    });
+}
+
+function updateDataStatus(mode, info) {
+  const el = document.getElementById('data-status');
+  if (!el) return;
+  if (mode === 'auto') {
+    el.innerHTML = '<span style="color:var(--green)">⬤</span> Dados carregados automaticamente · ' + new Date().toLocaleString('pt-BR');
+    el.title = info;
+  } else if (mode === 'manual') {
+    el.innerHTML = '<span style="color:var(--yellow)">⬤</span> Arquivo carregado manualmente · ' + new Date().toLocaleString('pt-BR');
+  } else if (mode === 'mock') {
+    el.innerHTML = '<span style="color:var(--muted)">⬤</span> Dados de demonstração (configure a URL do CSV)';
+  }
+}
+
+// ============================================================
 // INIT
 // ============================================================
 window.addEventListener('load', () => {
-  const mock = generateMockData().map(enrichRow);
-  allData = mock;
-  filteredData = [...allData];
-  populateFilters(allData);
-  renderAll();
-  document.getElementById('loading').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
+  loadFromURL(CSV_URL)
+    .catch(() => {
+      // Fallback: dados mock se o CSV ainda não estiver disponível
+      const mock = generateMockData().map(enrichRow);
+      allData = mock;
+      filteredData = [...allData];
+      populateFilters(allData);
+      renderAll();
+      updateDataStatus('mock', '');
+    })
+    .finally(() => {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+    });
 });
 </script>
 </body>
