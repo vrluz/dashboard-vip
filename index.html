@@ -22,88 +22,88 @@ console.warn = (...args) => {
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0b0f1a;
-    --surface: #111827;
-    --surface2: #1a2235;
-    --border: #1e2d44;
-    --accent: #00c2ff;
-    --accent2: #7c3aed;
-    --green: #10b981;
-    --red: #ef4444;
-    --yellow: #f59e0b;
-    --text: #e2e8f0;
-    --muted: #64748b;
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #f4f6f9;
+    --border: #dde3ec;
+    --accent: #1e3a5f;
+    --accent2: #2e5fa3;
+    --green: #059669;
+    --red: #dc2626;
+    --yellow: #d97706;
+    --text: #1a2535;
+    --muted: #607080;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 
   /* SIDEBAR */
   #sidebar { width: 260px; min-height: 100vh; background: var(--surface); border-right: 1px solid var(--border); padding: 20px 16px; flex-shrink: 0; overflow-y: auto; }
-  .sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; margin-top: 16px; }
+  .sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: #64748b; text-transform: uppercase; margin-bottom: 6px; margin-top: 16px; }
   .filter-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 7px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none; transition: border 0.2s; }
   .filter-input:focus { border-color: var(--accent); }
   .filter-input option { background: var(--surface2); }
 
   /* TOP BAR */
   #topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 0; height: 52px; }
-  .tab-btn { padding: 0 18px; height: 52px; border: none; background: none; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-btn { padding: 0 18px; height: 52px; border: none; background: none; color: #64748b; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .tab-btn.active { color: #2e5fa3; border-bottom-color: #2e5fa3; }
   .tab-btn:hover:not(.active) { color: var(--text); }
 
   /* KPI CARDS */
   .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
-  .kpi-val { font-family: 'Space Mono', monospace; font-size: 28px; font-weight: 700; color: var(--accent); line-height: 1; }
-  .kpi-label { font-size: 11px; color: var(--muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
-  .kpi-sub { font-size: 12px; color: var(--green); margin-top: 4px; }
+  .kpi-val { font-family: 'Space Mono', monospace; font-size: 28px; font-weight: 700; color: #1e3a5f; line-height: 1; }
+  .kpi-label { font-size: 11px; color: #64748b; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .kpi-sub { font-size: 12px; color: #059669; margin-top: 4px; }
   .kpi-sub.bad { color: var(--red); }
 
   /* CHART CARDS */
   .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
-  .card-title { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+  .card-title { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
 
   /* TABLES */
   .tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .tbl th { background: var(--surface2); color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 2; }
+  .tbl th { background: #f1f5f9; color: #64748b; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 2; }
   .tbl td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  .tbl tr:hover td { background: var(--surface2); }
+  .tbl tr:hover td { background: #f1f5f9; }
   .tbl-wrap { overflow-x: auto; max-height: 400px; overflow-y: auto; border-radius: 8px; border: 1px solid var(--border); }
-  .row-violated { background: rgba(239,68,68,0.07) !important; }
-  .row-stale { background: rgba(239,68,68,0.18) !important; }
-  .row-stale td { color: #fca5a5; }
+  .row-violated { background: rgba(217,119,6,0.07) !important; }
+  .row-stale { background: rgba(220,38,38,0.1) !important; }
+  .row-stale td { color: #b91c1c; }
   .tag { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; }
-  .tag-red { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
-  .tag-yellow { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.3); }
-  .tag-green { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
-  .tag-blue { background: rgba(0,194,255,0.1); color: #7dd3fc; border: 1px solid rgba(0,194,255,0.2); }
-  .tag-gray { background: rgba(100,116,139,0.15); color: #94a3b8; border: 1px solid rgba(100,116,139,0.3); }
+  .tag-red { background: rgba(220,38,38,0.1); color: #b91c1c; border: 1px solid rgba(220,38,38,0.3); }
+  .tag-yellow { background: rgba(217,119,6,0.1); color: #92400e; border: 1px solid rgba(217,119,6,0.3); }
+  .tag-green { background: rgba(5,150,105,0.1); color: #065f46; border: 1px solid rgba(5,150,105,0.3); }
+  .tag-blue { background: rgba(0,194,255,0.1); color: #7dd3fc; border: 1px solid rgba(30,58,95,0.2); }
+  .tag-gray { background: rgba(100,116,139,0.1); color: #475569; border: 1px solid rgba(100,116,139,0.25); }
 
   /* INTELLIGENCE BOX */
-  .intel-box { background: linear-gradient(135deg, rgba(0,194,255,0.05), rgba(124,58,237,0.05)); border: 1px solid rgba(0,194,255,0.2); border-radius: 10px; padding: 18px 20px; }
-  .intel-box h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 10px; }
-  .intel-box p { font-size: 13px; line-height: 1.7; color: #cbd5e1; }
+  .intel-box { background: linear-gradient(135deg, rgba(30,58,95,0.04), rgba(46,95,163,0.04)); border: 1px solid rgba(30,58,95,0.2); border-radius: 10px; padding: 18px 20px; }
+  .intel-box h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #1e3a5f; margin-bottom: 10px; }
+  .intel-box p { font-size: 13px; line-height: 1.7; color: #334155; }
 
   /* BUTTONS */
   .btn { padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
-  .btn-accent { background: var(--accent); color: var(--bg); }
-  .btn-accent:hover { background: #33cdff; }
-  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
-  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-danger { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
-  .btn-danger:hover { background: rgba(239,68,68,0.2); }
+  .btn-accent { background: #1e3a5f; color: #ffffff; }
+  .btn-accent:hover { background: #2e5fa3; }
+  .btn-outline { background: transparent; border: 1px solid #e2e8f0; color: #64748b; }
+  .btn-outline:hover { border-color: #2e5fa3; color: #2e5fa3; }
+  .btn-danger { background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.3); color: #dc2626; }
+  .btn-danger:hover { background: rgba(220,38,38,0.15); }
 
   /* LOGO */
   .logo { font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700; color: var(--accent); letter-spacing: 0.05em; }
-  .logo span { color: var(--muted); font-weight: 400; }
+  .logo span { color: #94a3b8; font-weight: 400; }
 
   /* MISC */
-  .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
-  .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; animation: pulse 2s infinite; }
+  .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #607080; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #dde3ec; }
+  .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #1e3a5f; display: inline-block; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-  #loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; flex-direction: column; gap: 14px; }
-  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  #loading { position: fixed; inset: 0; background: #f0f4f8; display: flex; align-items: center; justify-content: center; z-index: 9999; flex-direction: column; gap: 14px; }
+  .spinner { width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .mom-bar-pos { background: var(--red); }
   .mom-bar-neg { background: var(--green); }
@@ -117,24 +117,24 @@ console.warn = (...args) => {
   /* MULTI-SELECT */
   .ms-wrap { position: relative; }
   .ms-trigger { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 6px 10px; font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 6px; min-height: 32px; transition: border 0.2s; user-select: none; }
-  .ms-trigger:hover, .ms-trigger.open { border-color: var(--accent); }
+  .ms-trigger:hover, .ms-trigger.open { border-color: #2e5fa3; }
   .ms-trigger-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
   .ms-trigger-text.has-val { color: var(--accent); }
   .ms-trigger-arrow { font-size: 9px; color: var(--muted); flex-shrink: 0; transition: transform 0.2s; }
   .ms-trigger.open .ms-trigger-arrow { transform: rotate(180deg); }
-  .ms-dropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface2); border: 1px solid var(--accent); border-radius: 6px; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,0.5); display: none; flex-direction: column; max-height: 220px; }
+  .ms-dropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface2); border: 1px solid #2e5fa3; border-radius: 6px; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,0.12); display: none; flex-direction: column; max-height: 220px; }
   .ms-dropdown.open { display: flex; }
   .ms-search { padding: 7px 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-  .ms-search input { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-family: 'DM Sans', sans-serif; outline: none; }
-  .ms-search input:focus { border-color: var(--accent); }
+  .ms-search input { width: 100%; background: #f8fafc; border: 1px solid #cbd5e1; color: var(--text); border-radius: 4px; padding: 5px 8px; font-size: 12px; font-family: 'DM Sans', sans-serif; outline: none; }
+  .ms-search input:focus { border-color: #2e5fa3; }
   .ms-list { overflow-y: auto; flex: 1; }
   .ms-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; transition: background 0.1s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ms-item:hover { background: rgba(0,194,255,0.08); }
-  .ms-item.selected { color: var(--accent); }
-  .ms-item input[type=checkbox] { accent-color: var(--accent); flex-shrink: 0; width: 13px; height: 13px; cursor: pointer; }
+  .ms-item:hover { background: rgba(30,58,95,0.06); }
+  .ms-item.selected { color: #1e3a5f; }
+  .ms-item input[type=checkbox] { accent-color: #2e5fa3; flex-shrink: 0; width: 13px; height: 13px; cursor: pointer; }
   .ms-clear-row { padding: 5px 10px; border-top: 1px solid var(--border); flex-shrink: 0; }
   .ms-clear-btn { font-size: 10px; color: var(--muted); cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 2px 0; }
-  .ms-clear-btn:hover { color: var(--accent); }
+  .ms-clear-btn:hover { color: #2e5fa3; }
 </style>
 </head>
 <body>
@@ -149,16 +149,80 @@ console.warn = (...args) => {
   <!-- TOP HEADER -->
   <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:48px;flex-shrink:0;">
     <div style="display:flex;align-items:center;gap:12px;">
-      <div class="logo">VIP<span>/OPS</span></div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <svg width="170" height="36" viewBox="0 0 170 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="sg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="20%" stop-color="#c0d4f0" stop-opacity="0.85"/>
+      <stop offset="55%" stop-color="#7a9abf" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0a1628" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="og" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a8c4e8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0a1628" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hr" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0a1628" stop-opacity="0"/>
+      <stop offset="38%" stop-color="#b0c8e8" stop-opacity="0.75"/>
+      <stop offset="52%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="66%" stop-color="#b0c8e8" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0a1628" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="vr" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a1628" stop-opacity="0"/>
+      <stop offset="38%" stop-color="#b0c8e8" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="62%" stop-color="#b0c8e8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#0a1628" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="d1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1628" stop-opacity="0"/>
+      <stop offset="48%" stop-color="#7a9abf" stop-opacity="0.45"/>
+      <stop offset="52%" stop-color="#c0d4f0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0a1628" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="d2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a1628" stop-opacity="0"/>
+      <stop offset="48%" stop-color="#7a9abf" stop-opacity="0.45"/>
+      <stop offset="52%" stop-color="#c0d4f0" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0a1628" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="gbl" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+    <filter id="gbs" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+  </defs>
+  <!-- Outer soft glow -->
+  <ellipse cx="14" cy="18" rx="11" ry="11" fill="url(#og)" filter="url(#gbl)"/>
+  <!-- Glow halos on rays -->
+  <line x1="2" y1="18" x2="27" y2="18" stroke="#8aafd8" stroke-width="3" opacity="0.12" filter="url(#gbs)"/>
+  <line x1="14" y1="7" x2="14" y2="29" stroke="#8aafd8" stroke-width="3" opacity="0.12" filter="url(#gbs)"/>
+  <!-- Diagonal rays -->
+  <line x1="6.5" y1="10.5" x2="21.5" y2="25.5" stroke="url(#d1)" stroke-width="0.45"/>
+  <line x1="21.5" y1="10.5" x2="6.5" y2="25.5" stroke="url(#d2)" stroke-width="0.45"/>
+  <!-- Main cross rays -->
+  <line x1="0" y1="18" x2="29" y2="18" stroke="url(#hr)" stroke-width="0.8"/>
+  <line x1="14" y1="5" x2="14" y2="31" stroke="url(#vr)" stroke-width="0.8"/>
+  <!-- Center glow -->
+  <circle cx="14" cy="18" r="2.5" fill="url(#sg)"/>
+  <circle cx="14" cy="18" r="0.9" fill="#ffffff"/>
+  <!-- STARIAN text -->
+  <text x="34" y="23.5" font-family="'DM Sans','Helvetica Neue',Arial,sans-serif" font-size="14.5" font-weight="300" letter-spacing="4.5" fill="#0a1628" text-rendering="geometricPrecision">STARIAN</text>
+</svg>
+        <div style="width:1px;height:20px;background:#dde3ec;margin:0 4px;"></div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:#8ca0b8;letter-spacing:0.1em;text-transform:uppercase;">Dashboard VIP</div>
+      </div>
       <div style="width:1px;height:20px;background:var(--border);"></div>
       <div style="font-size:12px;color:var(--muted);">Dashboard Operacional de Clientes VIP</div>
     </div>
     <div style="display:flex;align-items:center;gap:12px;">
       <span class="pulse-dot"></span>
-      <span style="font-size:11px;color:var(--muted);" id="last-update">—</span>
-      <span style="font-size:11px;color:var(--muted);margin-left:8px;" id="data-status">Carregando...</span>
-      <label class="upload-zone" style="padding:6px 12px;border-radius:6px;font-size:12px;color:var(--muted);border-style:dashed;border-width:1px;cursor:pointer;" title="Importar CSV">
-        📂 Importar CSV
+      <span style="font-size:11px;color:#64748b;" id="last-update">—</span>
+      <label class="upload-zone" style="padding:6px 12px;border-radius:6px;font-size:12px;color:#64748b;border-style:dashed;border-width:1px;cursor:pointer;" title="Importar CSV">
+        Importar CSV
         <input type="file" id="csv-upload" accept=".csv">
       </label>
     </div>
@@ -168,7 +232,7 @@ console.warn = (...args) => {
 
     <!-- SIDEBAR -->
     <div id="sidebar">
-      <div style="font-size:11px;font-weight:700;color:var(--text);letter-spacing:0.05em;margin-bottom:16px;">⚙ FILTROS</div>
+      <div style="font-size:11px;font-weight:700;color:var(--text);letter-spacing:0.05em;margin-bottom:16px;">FILTROS</div>
 
       <div class="sidebar-label">Período de Criação</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -210,8 +274,8 @@ console.warn = (...args) => {
 
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
         <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Total de Registros</div>
-        <div style="font-family:'Space Mono',monospace;font-size:20px;color:var(--accent);" id="total-records">—</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px;">tickets carregados</div>
+        <div style="font-family:'Space Mono',monospace;font-size:20px;color:#1e3a5f;" id="total-records">—</div>
+        <div style="font-size:11px;color:#64748b;margin-top:2px;">tickets carregados</div>
       </div>
     </div>
 
@@ -220,11 +284,11 @@ console.warn = (...args) => {
 
       <!-- TABS -->
       <div id="topbar">
-        <button class="tab-btn active" data-tab="0">📊 Resumo Executivo</button>
-        <button class="tab-btn" data-tab="1">🎯 Radar Operacional</button>
-        <button class="tab-btn" data-tab="2">🚀 Evolutivas & Melhorias</button>
-        <button class="tab-btn" data-tab="3">🔍 Análise de Gargalos</button>
-        <button class="tab-btn" data-tab="4">⚡ Insights Executivos</button>
+        <button class="tab-btn active" data-tab="0">Resumo Executivo</button>
+        <button class="tab-btn" data-tab="1">Radar Operacional</button>
+        <button class="tab-btn" data-tab="2">Evolutivas & Melhorias</button>
+        <button class="tab-btn" data-tab="3">Análise de Gargalos</button>
+        <button class="tab-btn" data-tab="4">Insights Executivos</button>
       </div>
 
       <!-- CONTENT -->
@@ -302,7 +366,7 @@ console.warn = (...args) => {
 
           <!-- INTEL -->
           <div class="intel-box">
-            <h3>⚡ Inteligência Operacional</h3>
+            <h3>Inteligência Operacional</h3>
             <p id="intel-text">Carregando análise...</p>
           </div>
         </div>
@@ -314,26 +378,26 @@ console.warn = (...args) => {
               <div style="font-size:15px;font-weight:600;">Radar Operacional — Tickets com SLA Violado</div>
               <div style="font-size:12px;color:var(--muted);margin-top:2px;">Exibe apenas tickets ativos cujo tempo de vida excedeu o limite de SLA.</div>
             </div>
-            <button class="btn btn-danger" id="btn-export-sla">⬇ Exportar Ofensores SLA (CSV)</button>
+            <button class="btn btn-danger" id="btn-export-sla">Exportar Ofensores SLA (CSV)</button>
           </div>
           <div style="margin-bottom:14px;">
-            <div class="section-title">🔴 Abertos <span id="count-open" style="font-family:'Space Mono',monospace;color:#ef4444;font-size:11px;margin-left:8px;"></span></div>
+            <div class="section-title">Abertos <span id="count-open" style="font-family:'Space Mono',monospace;color:#dc2626;font-size:11px;margin-left:8px;"></span></div>
             <div class="tbl-wrap" id="tbl-open-wrap"><table class="tbl" id="tbl-open"></table></div>
           </div>
           <div style="margin-bottom:14px;">
-            <div class="section-title">🟡 Pendentes <span id="count-pending" style="font-family:'Space Mono',monospace;color:#f59e0b;font-size:11px;margin-left:8px;"></span></div>
+            <div class="section-title">Pendentes <span id="count-pending" style="font-family:'Space Mono',monospace;color:#f59e0b;font-size:11px;margin-left:8px;"></span></div>
             <div class="tbl-wrap" id="tbl-pending-wrap"><table class="tbl" id="tbl-pending"></table></div>
           </div>
           <div style="margin-bottom:14px;">
-            <div class="section-title">🟣 Em Desenvolvimento <span id="count-dev" style="font-family:'Space Mono',monospace;color:#a78bfa;font-size:11px;margin-left:8px;"></span></div>
+            <div class="section-title">Em Desenvolvimento <span id="count-dev" style="font-family:'Space Mono',monospace;color:#2e5fa3;font-size:11px;margin-left:8px;"></span></div>
             <div class="tbl-wrap" id="tbl-dev-wrap"><table class="tbl" id="tbl-dev"></table></div>
           </div>
           <div style="margin-bottom:14px;">
-            <div class="section-title">🟢 Em Liberação <span id="count-lib" style="font-family:'Space Mono',monospace;color:#10b981;font-size:11px;margin-left:8px;"></span></div>
+            <div class="section-title">Em Liberação <span id="count-lib" style="font-family:'Space Mono',monospace;color:#10b981;font-size:11px;margin-left:8px;"></span></div>
             <div class="tbl-wrap" id="tbl-lib-wrap"><table class="tbl" id="tbl-lib"></table></div>
           </div>
           <div>
-            <div class="section-title">⚪ Outros Status <span id="count-others" style="font-family:'Space Mono',monospace;color:#94a3b8;font-size:11px;margin-left:8px;"></span></div>
+            <div class="section-title">Outros Status <span id="count-others" style="font-family:'Space Mono',monospace;color:#94a3b8;font-size:11px;margin-left:8px;"></span></div>
             <div class="tbl-wrap" id="tbl-others-wrap"><table class="tbl" id="tbl-others"></table></div>
           </div>
         </div>
@@ -345,7 +409,7 @@ console.warn = (...args) => {
               <div style="font-size:15px;font-weight:600;">Evolutivas & Melhorias — Backlog de Produto</div>
               <div style="font-size:12px;color:var(--muted);margin-top:2px;">Tickets do tipo Evolutiva, Alteração, Implementação ou Melhoria. Ordenados dos mais antigos.</div>
             </div>
-            <button class="btn btn-danger" id="btn-export-evo">⬇ Exportar Evolutivas (CSV)</button>
+            <button class="btn btn-danger" id="btn-export-evo">Exportar Evolutivas (CSV)</button>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
             <div class="chart-card">
@@ -353,7 +417,7 @@ console.warn = (...args) => {
               <canvas id="ch-evo-groups"></canvas>
             </div>
             <div class="intel-box" style="display:flex;flex-direction:column;justify-content:center;">
-              <h3>📌 Painel de Evolutivas</h3>
+              <h3>Painel de Evolutivas</h3>
               <p id="evo-intel-text">Carregando...</p>
             </div>
           </div>
@@ -363,7 +427,7 @@ console.warn = (...args) => {
         <!-- TAB 3: GARGALOS -->
         <div class="tab-content" id="tab-3">
           <div style="margin-bottom:6px;font-size:11px;color:var(--muted);padding:6px 10px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:6px;">
-            ⚠️ <strong>Grupo Excluído Globalmente:</strong> "Suporte Central Sienge" foi descontinuado e está excluído de todos os cálculos e abas do dashboard.
+            <strong>Grupo Excluído Globalmente:</strong> "Suporte Central Sienge" foi descontinuado e está excluído de todos os cálculos e abas do dashboard.
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;margin-top:14px;">
             <div class="chart-card">
@@ -377,11 +441,11 @@ console.warn = (...args) => {
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div class="intel-box">
-              <h3>🧠 Inteligência de Gargalos</h3>
+              <h3>Inteligência de Gargalos</h3>
               <p id="gargalo-intel-text">Carregando...</p>
             </div>
             <div class="chart-card">
-              <h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:12px;">📋 Plano de Ação — Redução de MTTR</h3>
+              <h3 style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#1e3a5f;margin-bottom:12px;">Plano de Ação — Redução de MTTR</h3>
               <div id="plano-acao" style="display:flex;flex-direction:column;gap:10px;"></div>
             </div>
           </div>
@@ -393,17 +457,17 @@ console.warn = (...args) => {
           <!-- HEADER -->
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
             <div>
-              <div style="font-size:16px;font-weight:700;letter-spacing:0.02em;">⚡ Insights Executivos</div>
+              <div style="font-size:16px;font-weight:700;letter-spacing:0.02em;">Insights Executivos</div>
               <div style="font-size:12px;color:var(--muted);margin-top:3px;">Visão consolidada para reunião executiva — tickets ativos críticos e backlog de desenvolvimento</div>
             </div>
-            <button class="btn btn-danger" id="btn-export-exec">⬇ Exportar para Reunião (CSV)</button>
+            <button class="btn btn-danger" id="btn-export-exec">Exportar para Reunião (CSV)</button>
           </div>
 
           <!-- BLOCO 1: RADAR SLA -->
           <div style="border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:18px;margin-bottom:20px;background:rgba(239,68,68,0.03);">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
               <div style="width:3px;height:22px;background:var(--red);border-radius:2px;flex-shrink:0;"></div>
-              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#fca5a5;">🔴 Compromissos com Clientes em Risco</div>
+              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#fca5a5;">Compromissos com Clientes em Risco</div>
               <div style="font-size:11px;color:var(--muted);margin-left:4px;">Tickets ativos com SLA violado</div>
             </div>
 
@@ -417,12 +481,12 @@ console.warn = (...args) => {
                 <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#f59e0b;" id="exec-sla-stale">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Sem Contato há +7 dias</div>
               </div>
-              <div style="background:rgba(0,194,255,0.08);border:1px solid rgba(0,194,255,0.2);border-radius:8px;padding:14px 16px;">
-                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#00c2ff;" id="exec-sla-worst-group">—</div>
+              <div style="background:rgba(30,58,95,0.08);border:1px solid rgba(30,58,95,0.2);border-radius:8px;padding:14px 16px;">
+                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#1e3a5f;" id="exec-sla-worst-group">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Grupo Mais Ofensor</div>
               </div>
-              <div style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:8px;padding:14px 16px;">
-                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#a78bfa;" id="exec-sla-oldest">—</div>
+              <div style="background:rgba(30,58,95,0.06);border:1px solid rgba(30,58,95,0.15);border-radius:8px;padding:14px 16px;">
+                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#2e5fa3;" id="exec-sla-oldest">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Maior Atraso (dias)</div>
               </div>
             </div>
@@ -441,8 +505,8 @@ console.warn = (...args) => {
 
             <!-- Top tickets SLA -->
             <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px;">
-              <div class="section-title" style="margin-bottom:0;">📋 Top 15 Chamados — Maior Atraso vs Compromisso</div>
-              <div style="font-size:10px;color:var(--muted);">🔴 passou 100%+ do prazo &nbsp;🟡 passou 30–99% &nbsp;🟢 passou até 30%</div>
+              <div class="section-title" style="margin-bottom:0;">Top 15 Chamados — Maior Atraso vs Compromisso</div>
+              <div style="font-size:10px;color:var(--muted);"> passou 100%+ do prazo &nbsp; passou 30–99% &nbsp; passou até 30%</div>
             </div>
             <div class="tbl-wrap" style="max-height:320px;">
               <table class="tbl" id="tbl-exec-sla"></table>
@@ -450,21 +514,21 @@ console.warn = (...args) => {
           </div>
 
           <!-- BLOCO 2: DESENVOLVIMENTO -->
-          <div style="border:1px solid rgba(124,58,237,0.25);border-radius:12px;padding:18px;background:rgba(124,58,237,0.03);">
+          <div style="border:1px solid rgba(30,58,95,0.2);border-radius:12px;padding:18px;background:rgba(30,58,95,0.02);">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-              <div style="width:3px;height:22px;background:#7c3aed;border-radius:2px;flex-shrink:0;"></div>
-              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#a78bfa;">🚀 Fila de Desenvolvimento</div>
+              <div style="width:3px;height:22px;background:#1e3a5f;border-radius:2px;flex-shrink:0;"></div>
+              <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#1e3a5f;">Fila de Desenvolvimento</div>
               <div style="font-size:11px;color:var(--muted);margin-left:4px;">Evolutivas & melhorias com Jira Key — aguardando time de desenvolvimento</div>
             </div>
 
             <!-- KPIs Dev -->
             <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;">
-              <div style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);border-radius:8px;padding:14px 16px;">
-                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#a78bfa;" id="exec-dev-total">—</div>
+              <div style="background:rgba(30,58,95,0.08);border:1px solid rgba(30,58,95,0.2);border-radius:8px;padding:14px 16px;">
+                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#1e3a5f;" id="exec-dev-total">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Na Fila de Dev</div>
               </div>
-              <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:14px 16px;">
-                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#f59e0b;" id="exec-dev-avg">—</div>
+              <div style="background:rgba(30,58,95,0.06);border:1px solid rgba(30,58,95,0.15);border-radius:8px;padding:14px 16px;">
+                <div style="font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:#2e5fa3;" id="exec-dev-avg">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Média de Dias Parado</div>
               </div>
               <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:14px 16px;">
@@ -476,7 +540,7 @@ console.warn = (...args) => {
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Sem Update há +15d</div>
               </div>
               <div style="background:rgba(0,194,255,0.08);border:1px solid rgba(0,194,255,0.2);border-radius:8px;padding:14px 16px;">
-                <div style="font-family:'Space Mono',monospace;font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;color:#00c2ff;line-height:1.3;word-break:break-word;" id="exec-dev-worst-team">—</div>
+                <div style="font-family:'Space Mono',monospace;font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;color:#1e3a5f;line-height:1.3;word-break:break-word;" id="exec-dev-worst-team">—</div>
                 <div style="font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;">Time Mais Ofensor</div>
               </div>
             </div>
@@ -488,13 +552,13 @@ console.warn = (...args) => {
                 <canvas id="ch-exec-devteam" style="max-height:200px;"></canvas>
               </div>
               <div class="intel-box" style="display:flex;flex-direction:column;justify-content:center;">
-                <h3>🧠 Ponto de Atenção para a Reunião</h3>
+                <h3>Ponto de Atenção para a Reunião</h3>
                 <p id="exec-dev-intel">Carregando...</p>
               </div>
             </div>
 
             <!-- Dev table -->
-            <div class="section-title" style="margin-bottom:8px;">📋 Chamados Aguardando Desenvolvimento (com Jira)</div>
+            <div class="section-title" style="margin-bottom:8px;">Chamados Aguardando Desenvolvimento (com Jira)</div>
             <div class="tbl-wrap" style="max-height:360px;">
               <table class="tbl" id="tbl-exec-dev"></table>
             </div>
@@ -572,50 +636,168 @@ const VIP_DICT = {
 // SLA ENGINE
 // ============================================================
 const BUSINESS_HOURS_PER_DAY = 10;
-const EVO_TYPES = ['Evolutiva', 'Alteração', 'Implementação', 'Melhoria', 'Sugestões e Melhorias', 'Sugestão e Melhorias || Prevision', 'Alteração / Implementação'];
+const EVO_TYPES = ['Evolutiva', 'Alteração', 'Implementação', 'Melhoria', 'Sugestões e Melhorias', 'Sugestão e Melhorias || Prevision', 'Alteração / Implementação', 'Negociação Comercial/Chave de Ativação', 'Atendimento Bot', 'Cadastro de Cliente', 'Sem Demanda || Prevision', 'Requisição de Serviço || Prevision'];
 const EXCLUDED_GROUP = 'suporte central sienge'; // Grupo descontinuado — excluído de toda a análise
 
+// ============================================================
+// NATIONAL HOLIDAYS (Brazil) — fixed + moveable calculated
+// ============================================================
+function getBrazilHolidays(year) {
+  const h = new Set();
+  const add = (m, d) => h.add(`${year}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`);
+  // Fixed national holidays
+  add(1,1);   // Confraternização Universal
+  add(4,21);  // Tiradentes
+  add(5,1);   // Dia do Trabalho
+  add(9,7);   // Independência
+  add(10,12); // Nossa Senhora Aparecida
+  add(11,2);  // Finados
+  add(11,15); // Proclamação da República
+  add(11,20); // Consciência Negra
+  add(12,25); // Natal
+  // Easter-based moveable holidays
+  const easter = getEaster(year);
+  const e = new Date(easter);
+  // Carnaval: -47 and -48 days from Easter
+  const c1 = new Date(e); c1.setDate(c1.getDate()-48);
+  const c2 = new Date(e); c2.setDate(c2.getDate()-47);
+  // Sexta-feira Santa: -2 days
+  const sf = new Date(e); sf.setDate(sf.getDate()-2);
+  // Corpus Christi: +60 days
+  const cc = new Date(e); cc.setDate(cc.getDate()+60);
+  [c1,c2,sf,e,cc].forEach(d => {
+    h.add(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`);
+  });
+  return h;
+}
+
+function getEaster(year) {
+  const a=year%19,b=Math.floor(year/100),c=year%100;
+  const d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25);
+  const g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30;
+  const i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7;
+  const m=Math.floor((a+11*h+22*l)/451);
+  const month=Math.floor((h+l-7*m+114)/31);
+  const day=((h+l-7*m+114)%31)+1;
+  return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+}
+
+const holidayCache = {};
+function isHoliday(date) {
+  const y = date.getFullYear();
+  if (!holidayCache[y]) holidayCache[y] = getBrazilHolidays(y);
+  const key = `${y}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  return holidayCache[y].has(key);
+}
+
+// ============================================================
+// SLA TABLE — exact VIP SLAs by tipo+priority (hours)
+// ============================================================
+const SLA_TABLE = {
+  'sistema inoperante':                    { urgent:10 },
+  'sistema indisponível':                  { urgent:10 },
+  'erro geral':                            { urgent:10 },
+  'erro relacionado':                      { urgent:40, high:140, medium:180, low:300 },
+  'erro relacionado':                      { urgent:40, high:140, medium:180, low:300 },
+  'problema de desempenho':                { urgent:30, high:100, medium:150, low:250 },
+  'performace || prevision':               { urgent:30, high:100, medium:150, low:250 },
+  'performance || prevision':              { urgent:30, high:100, medium:150, low:250 },
+  'erro do sistema':                       { urgent:30, high:100, medium:150, low:250 },
+  'incidente || prevision':                { urgent:30, high:100, medium:150, low:250 },
+  'incidente  interno':                    { urgent:30, high:100, medium:150, low:250 },
+  'dúvidas e orientações':                 { medium:15 },
+  'dúvida || prevision':                   { medium:15 },
+  'esclarecimentos de cálculo do sistema': { medium:50 },
+  'consultoria ao canal de venda':         { medium:50 },
+  'consultoria de sistema':                { medium:50 },
+  'consultoria de sistema ao cliente':     { medium:50 },
+  'intervenção na base':                   { urgent:60, high:100, medium:150, low:180 },
+  'criação de base dc':                    { medium:30 },
+  'ativação de apis':                      { medium:50 },
+  'ativação de connectors':                { medium:50 },
+  'cópia de base (on premise)':            { medium:30 },
+  'atendimento ecd / ecf / coi':           { medium:50 },
+  // No SLA types
+  'alteração / implementação':             { _nosla:true },
+  'sugestões e melhorias':                 { _nosla:true },
+  'sugestão e melhorias || prevision':     { _nosla:true },
+  'negociação comercial/chave de ativação':{ _nosla:true },
+  'atendimento bot':                       { _nosla:true },
+  'cadastro de cliente':                   { _nosla:true },
+  'sem demanda || prevision':              { _nosla:true },
+  'requisição de serviço || prevision':    { _nosla:true },
+};
+
 function getSLALimitHours(tipo, prioridade) {
-  const t = (tipo || '').toLowerCase();
-  const p = (prioridade || '').toLowerCase();
-  // Evolutionary types: no SLA
-  if (EVO_TYPES.some(e => (tipo||'').toLowerCase().includes(e.toLowerCase()))) return 9999 * BUSINESS_HOURS_PER_DAY;
-  if (t.includes('dúvida') || t.includes('duvi') || t.includes('orientaç') || t.includes('orientac')) return 1.5 * BUSINESS_HOURS_PER_DAY;
-  if (t.includes('incidente') || t.includes('erro') || t.includes('sistema') || t.includes('problem') || t.includes('performance') || t.includes('desempenho')) {
-    if (p === 'urgent') return 3 * BUSINESS_HOURS_PER_DAY;
-    if (p === 'high') return 10 * BUSINESS_HOURS_PER_DAY;
-    if (p === 'medium') return 15 * BUSINESS_HOURS_PER_DAY;
-    return 25 * BUSINESS_HOURS_PER_DAY;
+  const t = (tipo || '').toLowerCase().trim();
+  const p = (prioridade || '').toLowerCase().trim();
+
+  // Exact match first
+  if (SLA_TABLE[t]) {
+    const entry = SLA_TABLE[t];
+    if (entry._nosla) return 9999 * BUSINESS_HOURS_PER_DAY;
+    return entry[p] || entry.medium || entry.urgent || 9999 * BUSINESS_HOURS_PER_DAY;
   }
-  // Default by priority
-  if (p === 'urgent') return 3 * BUSINESS_HOURS_PER_DAY;
-  if (p === 'high') return 10 * BUSINESS_HOURS_PER_DAY;
-  if (p === 'medium') return 15 * BUSINESS_HOURS_PER_DAY;
-  return 25 * BUSINESS_HOURS_PER_DAY;
+
+  // Fuzzy match — check if any key is contained in the tipo
+  for (const [key, entry] of Object.entries(SLA_TABLE)) {
+    if (key === '_nosla') continue;
+    if (t.includes(key) || key.includes(t)) {
+      if (entry._nosla) return 9999 * BUSINESS_HOURS_PER_DAY;
+      return entry[p] || entry.medium || entry.urgent || 9999 * BUSINESS_HOURS_PER_DAY;
+    }
+  }
+
+  // No match — default to high by priority (conservative)
+  if (p === 'urgent') return 30;
+  if (p === 'high')   return 100;
+  if (p === 'medium') return 150;
+  return 250;
+}
+
+function isWorkDay(date) {
+  const day = date.getDay();
+  if (day === 0 || day === 6) return false; // weekend
+  if (isHoliday(date)) return false;        // national holiday
+  return true;
+}
+
+function nextWorkDayStart(date) {
+  let d = new Date(date);
+  d.setDate(d.getDate() + 1);
+  d.setHours(8, 0, 0, 0);
+  while (!isWorkDay(d)) {
+    d.setDate(d.getDate() + 1);
+  }
+  return d;
 }
 
 function businessHoursBetween(start, end) {
   if (!start || !end || isNaN(start) || isNaN(end)) return 0;
   let hours = 0;
   let cur = new Date(start);
-  // If created on weekend, jump to next Monday 8h
-  while (cur.getDay() === 0 || cur.getDay() === 6) {
-    cur.setDate(cur.getDate() + 1);
+
+  // Align start: if weekend/holiday, jump to next workday 8h
+  if (!isWorkDay(cur)) {
+    cur = nextWorkDayStart(new Date(cur.getTime() - 86400000)); // go to prev day then nextWorkDay
     cur.setHours(8, 0, 0, 0);
-  }
-  // If created before business hours, align to 8h same day
-  if (cur.getHours() < 8) cur.setHours(8, 0, 0, 0);
-  // If created after business hours, jump to next weekday 8h
-  if (cur.getHours() >= 18) {
-    cur.setDate(cur.getDate() + 1);
-    cur.setHours(8, 0, 0, 0);
-    while (cur.getDay() === 0 || cur.getDay() === 6) {
+    // Actually just find next workday from start
+    cur = new Date(start);
+    while (!isWorkDay(cur)) {
       cur.setDate(cur.getDate() + 1);
+      cur.setHours(8, 0, 0, 0);
     }
+    cur.setHours(8, 0, 0, 0);
   }
+  // If before 8h on a workday, align to 8h
+  if (cur.getHours() < 8) cur.setHours(8, 0, 0, 0);
+  // If after 18h on a workday, jump to next workday 8h
+  if (cur.getHours() >= 18) {
+    cur = nextWorkDayStart(cur);
+  }
+
   while (cur < end) {
-    const day = cur.getDay();
-    if (day !== 0 && day !== 6) {
+    if (isWorkDay(cur)) {
       const dayEnd = new Date(cur);
       dayEnd.setHours(18, 0, 0, 0);
       const segEnd = end < dayEnd ? end : dayEnd;
@@ -623,7 +805,6 @@ function businessHoursBetween(start, end) {
         hours += (segEnd - cur) / 3600000;
       }
     }
-    // Next day start
     cur = new Date(cur);
     cur.setDate(cur.getDate() + 1);
     cur.setHours(8, 0, 0, 0);
@@ -824,7 +1005,7 @@ function buildMultiSelect(wrapperId, options, placeholder='Todos') {
   clearRow.className = 'ms-clear-row';
   const clearBtn = document.createElement('button');
   clearBtn.className = 'ms-clear-btn';
-  clearBtn.textContent = '✕ Limpar seleção';
+  clearBtn.textContent = ' Limpar seleção';
   clearRow.appendChild(clearBtn);
   dropdown.appendChild(clearRow);
 
@@ -964,7 +1145,7 @@ function applyFilters() {
 // ============================================================
 // CHART HELPERS
 // ============================================================
-const CHART_COLORS = ['#00c2ff','#7c3aed','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#d97706','#059669','#dc2626'];
+const CHART_COLORS = ['#1e3a5f','#2e5fa3','#4a7fc1','#6b9fd4','#8fbce6','#2d6a8f','#3d8fb5','#5aa7cc','#7ec0de','#a3d3ec'];
 
 function destroyChart(id) {
   if (charts[id]) { charts[id].destroy(); delete charts[id]; }
@@ -1039,9 +1220,9 @@ function mkDonutWithLines(id, labels, values, colors) {
         const tw = c.measureText(label).width;
         const pad = 2;
         const bx = isRight ? tx - pad : tx - tw - pad;
-        c.fillStyle = 'rgba(11,15,26,0.75)';
+        c.fillStyle = 'rgba(248,250,252,0.92)';
         c.fillRect(bx, y3 - 7, tw + pad * 2, 14);
-        c.fillStyle = '#e2e8f0';
+        c.fillStyle = '#1e293b';
         c.fillText(label, tx, y3);
       });
       c.restore();
@@ -1062,9 +1243,9 @@ function mkDonutWithLines(id, labels, values, colors) {
       layout: { padding: { top: 18, bottom: 4, left: 52, right: 52 } },
       plugins: {
         datalabels: { display: false },
-        legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 9 }, boxWidth: 10, padding: 10 } },
+        legend: { position: 'bottom', labels: { color: '#475569', font: { size: 9 }, boxWidth: 10, padding: 10 } },
         tooltip: {
-          backgroundColor: '#111827', borderColor: '#1e2d44', borderWidth: 1,
+          backgroundColor: '#1e293b', borderColor: '#e2e8f0', borderWidth: 1,
           titleColor: '#e2e8f0', bodyColor: '#94a3b8',
           callbacks: { label: (ctx) => {
             const v = ctx.parsed;
@@ -1117,16 +1298,18 @@ function mkChart(id, type, labels, datasets, opts={}) {
     const isHorizontal = opts.indexAxis === 'y';
     datalabelsConfig = {
       display: true,
-      color: '#e2e8f0',
+      color: '#1a2535',
       font: { size: 10, weight: '600' },
-      anchor: isHorizontal ? 'end' : 'end',
-      align: isHorizontal ? 'right' : 'top',
-      offset: 2,
+      anchor: isHorizontal ? 'end' : 'center',
+      align: isHorizontal ? 'right' : 'center',
+      offset: 0,
       formatter: (value, ctx) => {
         if (value === 0 || value === null || value === undefined) return '';
         const dataset = ctx.chart.data.datasets[ctx.datasetIndex].data;
         const total = dataset.reduce((a, b) => a + (b || 0), 0);
         const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+        // For vertical bars: show value + pct stacked inside bar
+        if (!isHorizontal) return value + '\n(' + pct + '%)';
         return `${value} (${pct}%)`;
       },
       clip: false,
@@ -1134,7 +1317,7 @@ function mkChart(id, type, labels, datasets, opts={}) {
   } else if (isLine) {
     datalabelsConfig = {
       display: true,
-      color: '#94a3b8',
+      color: '#475569',
       font: { size: 9, weight: '600' },
       anchor: 'end',
       align: 'bottom',
@@ -1153,15 +1336,15 @@ function mkChart(id, type, labels, datasets, opts={}) {
     options: {
       responsive: true,
       maintainAspectRatio: true,
-      layout: { padding: { top: isBar ? 20 : isDoughnut ? 24 : 0, bottom: isDoughnut ? 24 : 0, left: isDoughnut ? 24 : 0, right: opts.indexAxis === 'y' ? 80 : isDoughnut ? 24 : 0 } },
+      layout: { padding: { top: isBar ? 4 : isDoughnut ? 24 : 0, bottom: isDoughnut ? 24 : 0, left: isDoughnut ? 24 : 0, right: opts.indexAxis === 'y' ? 80 : isDoughnut ? 24 : 0 } },
       plugins: {
-        legend: { labels: { color: '#94a3b8', font: { size: 11 } } },
-        tooltip: { backgroundColor: '#111827', borderColor: '#1e2d44', borderWidth: 1, titleColor: '#e2e8f0', bodyColor: '#94a3b8' },
+        legend: { labels: { color: '#475569', font: { size: 11 } } },
+        tooltip: { backgroundColor: '#1e293b', borderColor: '#e2e8f0', borderWidth: 1, titleColor: '#f8fafc', bodyColor: '#94a3b8' },
         datalabels: datalabelsConfig,
       },
       scales: ['bar','line'].includes(type) ? {
-        x: { grid: { color: '#1e2d44' }, ticks: { color: '#64748b', font: { size: 10 } } },
-        y: { grid: { color: '#1e2d44' }, ticks: { color: '#64748b', font: { size: 10 } } }
+        x: { grid: { color: '#e2e8f0' }, ticks: { color: '#475569', font: { size: 10 } } },
+        y: { grid: { color: '#e2e8f0' }, ticks: { color: '#64748b', font: { size: 10 } } }
       } : undefined,
       ...opts
     }
@@ -1198,7 +1381,7 @@ function renderTab0(data) {
   const updated7d = activeBacklog.filter(r => r.lastUpdateDays <= 7).length;
   const upPct = activeBacklog.length ? ((updated7d / activeBacklog.length)*100).toFixed(1) : '—';
   document.getElementById('kpi-update').textContent = upPct + '%';
-  document.getElementById('kpi-update-sub').textContent = `${activeBacklog.length - updated7d} desatualizados`;
+  document.getElementById('kpi-update-sub').textContent = `${activeBacklog.length - updated7d} Desatualizados`;
 
   // Evolution chart (monthly)
   const months = {};
@@ -1209,7 +1392,7 @@ function renderTab0(data) {
   });
   const mKeys = Object.keys(months).sort().slice(-12);
   mkChart('ch-evolution','line', mKeys,
-    [{ label:'Tickets Abertos', data: mKeys.map(k=>months[k]), borderColor:'#00c2ff', backgroundColor:'rgba(0,194,255,0.08)', tension:0.4, fill:true, pointBackgroundColor:'#00c2ff' }]
+    [{ label:'Tickets Abertos', data: mKeys.map(k=>months[k]), borderColor:'#1e3a5f', backgroundColor:'rgba(30,58,95,0.06)', tension:0.4, fill:true, pointBackgroundColor:'#1e3a5f' }]
   );
 
   // Types donut
@@ -1221,7 +1404,7 @@ function renderTab0(data) {
   // Priority donut
   const prioCounts = {};
   data.forEach(r => { const p = r.prioridade||'N/A'; prioCounts[p]=(prioCounts[p]||0)+1; });
-  const prioColors = { urgent:'#ef4444', high:'#f59e0b', medium:'#00c2ff', low:'#10b981' };
+  const prioColors = { urgent:'#ef4444', high:'#f59e0b', medium:'#2e5fa3', low:'#4a7fc1' };
   const prioKeys = Object.keys(prioCounts);
   mkDonutWithLines('ch-priority', prioKeys, prioKeys.map(k=>prioCounts[k]), prioKeys.map(k=>prioColors[k]||'#64748b'));
 
@@ -1238,7 +1421,7 @@ function renderTab0(data) {
   data.forEach(r => { clientCounts[r.empresa]=(clientCounts[r.empresa]||0)+1; });
   const topClients = Object.entries(clientCounts).sort((a,b)=>b[1]-a[1]).slice(0,10);
   mkChart('ch-clients','bar', topClients.map(c=>c[0].slice(0,18)+'…'),
-    [{ label:'Tickets', data:topClients.map(c=>c[1]), backgroundColor:'#7c3aed', borderRadius:4 }],
+    [{ label:'Tickets', data:topClients.map(c=>c[1]), backgroundColor:'#1e3a5f', borderRadius:4 }],
     { indexAxis:'y' }
   );
 
@@ -1255,7 +1438,7 @@ function renderTab0(data) {
   // Meta: -20% MoM from first month
   const metas = momVals.map((v,i) => i===0 ? v : momVals[0] * Math.pow(0.8, i));
   mkChart('ch-mttr-mom','line', momKeys, [
-    { label:'MTTR Real (dias)', data:momVals.map(v=>+v.toFixed(1)), borderColor:'#00c2ff', backgroundColor:'rgba(0,194,255,0.06)', tension:0.3, fill:true },
+    { label:'MTTR Real (dias)', data:momVals.map(v=>+v.toFixed(1)), borderColor:'#1e3a5f', backgroundColor:'rgba(30,58,95,0.05)', tension:0.3, fill:true },
     { label:'Meta -20% MoM', data:metas.map(v=>+v.toFixed(1)), borderColor:'#10b981', borderDash:[5,5], tension:0.3, fill:false }
   ]);
 
@@ -1272,7 +1455,7 @@ function renderTab0(data) {
       legend: { display: false },
       datalabels: {
         display: true,
-        color: '#e2e8f0',
+        color: '#1e293b',
         font: { size: 10, weight: '700' },
         anchor: 'end',
         align: (ctx) => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'top' : 'bottom',
@@ -1299,7 +1482,7 @@ function renderTab0(data) {
     const prev = momVals[momVals.length-2];
     const diff = last - prev;
     const diffPct = prev > 0 ? ((Math.abs(diff)/prev)*100).toFixed(1) : '0';
-    const trend = diff < 0 ? `📉 reduziu ${diffPct}% (de ${prev.toFixed(1)} para ${last.toFixed(1)} dias)` : `📈 aumentou ${diffPct}% (de ${prev.toFixed(1)} para ${last.toFixed(1)} dias)`;
+    const trend = diff < 0 ? ` reduziu ${diffPct}% (de ${prev.toFixed(1)} para ${last.toFixed(1)} dias)` : ` aumentou ${diffPct}% (de ${prev.toFixed(1)} para ${last.toFixed(1)} dias)`;
     // Worst group (excludes discontinued Suporte Central Sienge)
     const groupMttr = {};
     resolved.forEach(r => {
@@ -1315,7 +1498,7 @@ function renderTab0(data) {
       if (avg > worstMttr) { worstMttr=avg; worstGroup=g; }
     });
     document.getElementById('intel-text').innerHTML =
-      `No último mês analisado (${momKeys[momKeys.length-1]}), o MTTR ${trend} úteis. ${diff>0?'⚠️ Atenção: o tempo de resolução está crescendo, indicando possível acúmulo de backlog ou dificuldade técnica.':'✅ A tendência é positiva, sugerindo melhoria nos processos de suporte.'} O grupo solucionador com pior desempenho histórico é <strong style="color:#00c2ff">${worstGroup}</strong>, com MTTR médio de <strong style="color:#00c2ff">${worstMttr.toFixed(1)} dias úteis</strong>. Recomenda-se priorizar triagem neste grupo para manter a meta de -20% MoM.`;
+      `No último mês analisado (${momKeys[momKeys.length-1]}), o MTTR ${trend} úteis. ${diff>0?' Atenção: o tempo de resolução está crescendo, indicando possível acúmulo de backlog ou dificuldade técnica.':' A tendência é positiva, sugerindo melhoria nos processos de suporte.'} O grupo solucionador com pior desempenho histórico é <strong style="color:#1e3a5f">${worstGroup}</strong>, com MTTR médio de <strong style="color:#2e5fa3">${worstMttr.toFixed(1)} dias úteis</strong>. Recomenda-se priorizar triagem neste grupo para manter a meta de -20% MoM.`;
   } else {
     document.getElementById('intel-text').textContent = 'Dados insuficientes para análise MoM. Carregue mais tickets para habilitar os insights.';
   }
@@ -1356,7 +1539,7 @@ function renderTab1(data) {
       const statusCell = includeStatus ? `<td><span class="tag tag-gray">${r.status}</span></td>` : '';
       return `<tr class="${rowClass}">
         <td><span style="font-family:'Space Mono',monospace;font-size:11px;">#${r.id}</span></td>
-        <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#7dd3fc;">${r.jiraKey||'—'}</span></td>
+        <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
         <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}${stale?'<span class="tag tag-red" style="margin-left:6px;font-size:9px;">Desatualizado</span>':''}</td>
         <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.empresa}">${r.empresa||'—'}</td>
         <td><span class="tag ${prioColor}">${r.prioridade}</span></td>
@@ -1391,14 +1574,14 @@ function renderTab2(data) {
   evos.forEach(r => { groupCounts[r.grupo]=(groupCounts[r.grupo]||0)+1; });
   const gKeys = Object.keys(groupCounts).sort((a,b)=>groupCounts[b]-groupCounts[a]).slice(0,8);
   mkChart('ch-evo-groups','bar', gKeys.map(k=>k.slice(0,20)),
-    [{ label:'Evolutivas', data:gKeys.map(k=>groupCounts[k]), backgroundColor:'#7c3aed', borderRadius:4 }]
+    [{ label:'Evolutivas', data:gKeys.map(k=>groupCounts[k]), backgroundColor:'#1e3a5f', borderRadius:4 }]
   );
 
   // Intel
   const topGroup = gKeys[0];
   const oldest = evos[0];
   document.getElementById('evo-intel-text').innerHTML = evos.length ?
-    `Há <strong style="color:#00c2ff">${evos.length} evolutivas/melhorias</strong> no backlog. O grupo mais demandado é <strong style="color:#00c2ff">${topGroup||'N/A'}</strong> com ${groupCounts[topGroup]||0} itens. O ticket mais antigo é <strong style="color:#f59e0b">#${oldest?.id}</strong> (${oldest?.ageDays?.toFixed(0)} dias úteis) — ${oldest?.assunto?.slice(0,60)}.` :
+    `Há <strong style="color:#1e3a5f">${evos.length} evolutivas/melhorias</strong> no backlog. O grupo mais demandado é <strong style="color:#1e3a5f">${topGroup||'N/A'}</strong> com ${groupCounts[topGroup]||0} itens. O ticket mais antigo é <strong style="color:#d97706">#${oldest?.id}</strong> (${oldest?.ageDays?.toFixed(0)} dias úteis) — ${oldest?.assunto?.slice(0,60)}.` :
     'Nenhuma evolutiva encontrada nos dados filtrados.';
 
   // Table
@@ -1408,13 +1591,13 @@ function renderTab2(data) {
     const rowClass = stale ? 'row-stale' : '';
     return `<tr class="${rowClass}">
       <td><span style="font-family:'Space Mono',monospace;font-size:11px;">#${r.id}</span></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#7dd3fc;">${r.jiraKey||'—'}</span></td>
+      <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
       <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto}</td>
       <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.empresa}</td>
-      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#a78bfa;">${r.tipo||'—'}</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#2e5fa3;">${r.tipo||'—'}</td>
       <td><span class="tag tag-gray">${r.status}</span></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:11px;color:#00c2ff;">${r.ageDays.toFixed(1)}d</span></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:11px;${stale?'color:#fca5a5':''}">${r.lastUpdateDays.toFixed(1)}d${stale?' ⚠️':''}</span></td>
+      <td><span style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;">${r.ageDays.toFixed(1)}d</span></td>
+      <td><span style="font-family:'Space Mono',monospace;font-size:11px;${stale?'color:#fca5a5':''}">${r.lastUpdateDays.toFixed(1)}d${stale?' ':''}</span></td>
     </tr>`;
   }).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px;">Nenhum ticket evolutivo encontrado.</td></tr>`;
   document.getElementById('tbl-evo').innerHTML = hdr + rows;
@@ -1463,7 +1646,7 @@ function renderTab3(data) {
       return `<tr><td style="color:var(--muted)">${i+1}</td>
         <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${nome}</td>
         <td><span style="font-family:'Space Mono',monospace;">${s.count}</span></td>
-        <td><span style="font-family:'Space Mono',monospace;color:#00c2ff;">${mttr}</span></td></tr>`;
+        <td><span style="font-family:'Space Mono',monospace;color:#2e5fa3;">${mttr}</span></td></tr>`;
     }).join('');
 
   // Intelligence
@@ -1473,9 +1656,9 @@ function renderTab3(data) {
   const topType = Object.entries(typeCounts).sort((a,b)=>b[1]-a[1])[0];
   const topClient = topC[0];
   document.getElementById('gargalo-intel-text').innerHTML = `
-    🔴 <strong>Gargalo Interno:</strong> O grupo <strong style="color:#00c2ff">${worstGroup?worstGroup[0]:'N/A'}</strong> apresenta o maior MTTR médio (${worstGroup?worstGroup[1].toFixed(1):'—'} dias úteis), sendo o principal gargalo operacional.<br><br>
-    🔵 <strong>Ações de Triagem:</strong> O tipo mais frequente é <strong style="color:#f59e0b">${topType?topType[0]:'N/A'}</strong> (${topType?topType[1]:0} ocorrências), exigindo padronização na triagem inicial.<br><br>
-    🟢 <strong>Customer Success:</strong> O cliente <strong style="color:#10b981">${topClient?topClient[0]:'N/A'}</strong> é o que mais demanda esforço com ${topClient?topClient[1].count:0} tickets — atenção redobrada do CSM responsável.
+     <strong>Gargalo Interno:</strong> O grupo <strong style="color:#1e3a5f">${worstGroup?worstGroup[0]:'N/A'}</strong> apresenta o maior MTTR médio (${worstGroup?worstGroup[1].toFixed(1):'—'} dias úteis), sendo o principal gargalo operacional.<br><br>
+    <strong>Ações de Triagem:</strong> O tipo mais frequente é <strong style="color:#d97706">${topType?topType[0]:'N/A'}</strong> (${topType?topType[1]:0} ocorrências), exigindo padronização na triagem inicial.<br><br>
+     <strong>Customer Success:</strong> O cliente <strong style="color:#059669">${topClient?topClient[0]:'N/A'}</strong> é o que mais demanda esforço com ${topClient?topClient[1].count:0} tickets — atenção redobrada do CSM responsável.
   `;
 
   // Action plan
@@ -1486,7 +1669,7 @@ function renderTab3(data) {
     { num:'04', title:'Health Check VIP', desc:'CSMs devem realizar review semanal dos tickets sem atualização >7 dias com clientes VIP, garantindo visibilidade e confiança.' },
   ].map(p => `
     <div style="display:flex;gap:12px;align-items:flex-start;">
-      <div style="font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:rgba(0,194,255,0.3);flex-shrink:0;width:32px;">${p.num}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:rgba(30,58,95,0.3);flex-shrink:0;width:32px;">${p.num}</div>
       <div>
         <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;">${p.title}</div>
         <div style="font-size:11px;color:var(--muted);line-height:1.6;">${p.desc}</div>
@@ -1526,7 +1709,7 @@ function renderTab4(data) {
     const v = groupViol[_];
     if (v >= 10) return '#ef4444';
     if (v >= 5) return '#f59e0b';
-    return '#00c2ff';
+    return '#2e5fa3';
   });
   mkChart('ch-exec-groups','bar', gKeys.map(g=>g.slice(0,22)), [{
     label:'Tickets em Risco', data:gKeys.map(k=>groupViol[k]),
@@ -1547,7 +1730,7 @@ function renderTab4(data) {
   const slaHdr = `<tr>
     <th>Ticket</th><th>Assunto</th><th>Cliente</th><th>Grupo Responsável</th>
     <th>Tipo</th><th>Prioridade</th><th>Status</th><th>Tempo em Aberto</th>
-    <th title="Dias além do prazo acordado com o cliente. 🔴 = passou 100%+ do SLA. 🟡 = passou 30–99%. 🟢 = passou até 30%.">Dias além do Prazo ⓘ</th>
+    <th title="Dias além do prazo acordado com o cliente.  = passou 100%+ do SLA.  = passou 30–99%.  = passou até 30%.">Dias além do Prazo ⓘ</th>
     <th>Sem Contato</th>
   </tr>`;
   const slaRows = top15.length ? top15.map(r => {
@@ -1557,7 +1740,7 @@ function renderTab4(data) {
     // >= 1.0 red (atraso >= 100% do limite), >= 0.3 yellow (30%+), else green
     const overPct = r.slaLimitDays > 0 ? (over / r.slaLimitDays) : 0;
     const semColor = overPct >= 1.0 ? '#ef4444' : overPct >= 0.3 ? '#f59e0b' : '#10b981';
-    const semIcon = overPct >= 1.0 ? '🔴' : overPct >= 0.3 ? '🟡' : '🟢';
+    const semIcon = overPct >= 1.0 ? '' : overPct >= 0.3 ? '' : '';
     const prioColor = {urgent:'tag-red',high:'tag-yellow',medium:'tag-blue',low:'tag-gray'}[r.prioridade]||'tag-gray';
     const rowStyle = stale ? 'background:rgba(239,68,68,0.12);' : '';
     return `<tr style="${rowStyle}">
@@ -1565,14 +1748,14 @@ function renderTab4(data) {
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}</td>
       <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">${r.empresa||'—'}</td>
       <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);">${r.grupo||'—'}</td>
-      <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#a78bfa;">${r.tipo||'—'}</td>
+      <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#2e5fa3;">${r.tipo||'—'}</td>
       <td><span class="tag ${prioColor}">${r.prioridade}</span></td>
       <td><span class="tag tag-gray" style="font-size:9px;">${r.status}</span></td>
       <td><span style="font-family:'Space Mono',monospace;font-size:11px;">${r.ageDays.toFixed(0)}d</span></td>
       <td><span style="font-family:'Space Mono',monospace;font-size:11px;color:${semColor};font-weight:700;">${semIcon} +${over.toFixed(0)}d</span></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:11px;${stale?'color:#fca5a5':''}">${r.lastUpdateDays.toFixed(0)}d${stale?' ⚠️':''}</span></td>
+      <td><span style="font-family:'Space Mono',monospace;font-size:11px;${stale?'color:#fca5a5':''}">${r.lastUpdateDays.toFixed(0)}d${stale?' ':''}</span></td>
     </tr>`;
-  }).join('') : `<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:20px;">Nenhum compromisso em risco 🎉</td></tr>`;
+  }).join('') : `<tr><td colspan="10" style="text-align:center;color:var(--muted);padding:20px;">Nenhum compromisso em risco </td></tr>`;
   document.getElementById('tbl-exec-sla').innerHTML = slaHdr + slaRows;
 
   // ── BLOCO 2: DESENVOLVIMENTO ─────────────────────────────
@@ -1606,7 +1789,7 @@ function renderTab4(data) {
     // Split at '(' to show module on second line if present
     const parts = fullName.split('(');
     if (parts.length > 1) {
-      el.innerHTML = `${parts[0].trim()}<br><span style="font-size:13px;color:#7dd3fc;">(${parts[1].replace(')','')}) · ${worstDevTeamCount} tickets</span>`;
+      el.innerHTML = `${parts[0].trim()}<br><span style="font-size:13px;color:#4a7fc1;">(${parts[1].replace(')','')}) · ${worstDevTeamCount} tickets</span>`;
     } else {
       el.textContent = `${fullName} · ${worstDevTeamCount} tickets`;
     }
@@ -1639,9 +1822,9 @@ function renderTab4(data) {
   })();
   const intelEl = document.getElementById('exec-dev-intel');
   if (devTickets.length) {
-    intelEl.innerHTML = `Existem <strong style="color:#a78bfa">${devTickets.length} chamados</strong> ativos ligados ao time de desenvolvimento (com Jira Key ou status de dev).
+    intelEl.innerHTML = `Existem <strong style="color:#1e3a5f">${devTickets.length} chamados</strong> ativos ligados ao time de desenvolvimento (com Jira Key ou status de dev).
     ${devStale15 > 0 ? ` <strong style="color:#ef4444">${devStale15} estão sem atualização há +15 dias</strong> — precisam de posicionamento imediato.` : ' Todos com atualizações recentes.'}
-    ${topDevTeam ? ` O time <strong style="color:#00c2ff">${topDevTeam}</strong> concentra mais chamados (${devTeamCount[topDevTeam]}).` : ''}
+    ${topDevTeam ? ` O time <strong style="color:#1e3a5f">${topDevTeam}</strong> concentra mais chamados (${devTeamCount[topDevTeam]}).` : ''}
     ${topDevClient ? ` O cliente mais impactado é <strong style="color:#f59e0b">${topDevClient[0]}</strong> com ${topDevClient[1]} itens aguardando.` : ''}
     O chamado mais antigo está parado há <strong style="color:#ef4444">${devOldest} dias úteis</strong>.`;
   } else {
@@ -1661,14 +1844,14 @@ function renderTab4(data) {
     const teamLabel = r.timeDev || '<span style="color:var(--muted);font-size:10px;">—</span>';
     return `<tr style="${rowStyle}">
       <td><span style="font-family:'Space Mono',monospace;font-size:11px;">#${r.id}</span></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#7dd3fc;">${r.jiraKey||'—'}</span></td>
+      <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}</td>
       <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">${r.empresa||'—'}</td>
       <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#94a3b8;">${r.tipo||'—'}</td>
-      <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#a78bfa;">${teamLabel}</td>
+      <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#2e5fa3;">${teamLabel}</td>
       <td><span class="tag tag-gray" style="font-size:9px;">${r.status}</span></td>
       <td><span style="font-family:'Space Mono',monospace;font-size:11px;color:${ageColor};font-weight:600;">${r.ageDays.toFixed(0)}d</span></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:11px;${stale?'color:#fca5a5':''}">${r.lastUpdateDays.toFixed(0)}d${stale?' ⚠️':''}</span></td>
+      <td><span style="font-family:'Space Mono',monospace;font-size:11px;${stale?'color:#fca5a5':''}">${r.lastUpdateDays.toFixed(0)}d${stale?' ':''}</span></td>
     </tr>`;
   }).join('') : `<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px;">Nenhum chamado de desenvolvimento encontrado.</td></tr>`;
   document.getElementById('tbl-exec-dev').innerHTML = devHdr + devRows;
@@ -1781,7 +1964,6 @@ document.getElementById('csv-upload').addEventListener('change', function(e) {
       filteredData = [...allData];
       populateFilters(allData);
       renderAll();
-      updateDataStatus('manual', '');
       document.querySelector('.upload-zone').style.borderColor = 'var(--green)';
       setTimeout(() => document.querySelector('.upload-zone').style.borderColor = '', 2000);
     },
@@ -1792,58 +1974,16 @@ document.getElementById('csv-upload').addEventListener('change', function(e) {
 });
 
 // ============================================================
-// AUTO-LOAD CSV FROM GITHUB
-// ============================================================
-const CSV_URL = 'https://raw.githubusercontent.com/vrluz/dashboard-vip/main/data/tickets.csv';
-
-function loadFromURL(url) {
-  return fetch(url + '?nocache=' + Date.now())
-    .then(res => {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.text();
-    })
-    .then(text => {
-      const results = Papa.parse(text, { header: true, skipEmptyLines: true });
-      const parsed = parseCSVRows(results.data);
-      allData = parsed.map(enrichRow);
-      filteredData = [...allData];
-      populateFilters(allData);
-      renderAll();
-      updateDataStatus('auto', url);
-    });
-}
-
-function updateDataStatus(mode, info) {
-  const el = document.getElementById('data-status');
-  if (!el) return;
-  if (mode === 'auto') {
-    el.innerHTML = '<span style="color:var(--green)">⬤</span> Dados carregados automaticamente · ' + new Date().toLocaleString('pt-BR');
-    el.title = info;
-  } else if (mode === 'manual') {
-    el.innerHTML = '<span style="color:var(--yellow)">⬤</span> Arquivo carregado manualmente · ' + new Date().toLocaleString('pt-BR');
-  } else if (mode === 'mock') {
-    el.innerHTML = '<span style="color:var(--muted)">⬤</span> Dados de demonstração (configure a URL do CSV)';
-  }
-}
-
-// ============================================================
 // INIT
 // ============================================================
 window.addEventListener('load', () => {
-  loadFromURL(CSV_URL)
-    .catch(() => {
-      // Fallback: dados mock se o CSV ainda não estiver disponível
-      const mock = generateMockData().map(enrichRow);
-      allData = mock;
-      filteredData = [...allData];
-      populateFilters(allData);
-      renderAll();
-      updateDataStatus('mock', '');
-    })
-    .finally(() => {
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-    });
+  const mock = generateMockData().map(enrichRow);
+  allData = mock;
+  filteredData = [...allData];
+  populateFilters(allData);
+  renderAll();
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
 });
 </script>
 </body>
