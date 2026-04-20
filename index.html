@@ -135,10 +135,111 @@ console.warn = (...args) => {
   .ms-clear-row { padding: 5px 10px; border-top: 1px solid var(--border); flex-shrink: 0; }
   .ms-clear-btn { font-size: 10px; color: var(--muted); cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 2px 0; }
   .ms-clear-btn:hover { color: #2e5fa3; }
+
+  /* ============================================================
+     RESPONSIVE — MOBILE & TABLET
+  ============================================================ */
+
+  /* Tablet (≤900px) */
+  @media (max-width: 900px) {
+    #sidebar { display: none; }
+    #app > div:last-child { flex-direction: column; }
+    .tab-btn { padding: 0 12px; font-size: 12px; }
+  }
+
+  /* Mobile (≤600px) */
+  @media (max-width: 600px) {
+    #topbar { overflow-x: auto; height: auto; padding: 4px 8px; flex-wrap: nowrap; gap: 0; }
+    .tab-btn { padding: 8px 10px; font-size: 11px; height: auto; white-space: nowrap; flex-shrink: 0; }
+    #main-content { padding: 12px 10px !important; }
+
+    /* KPI grids: stack to 2 columns on mobile */
+    div[style*="grid-template-columns:repeat(5,1fr)"],
+    div[style*="grid-template-columns:repeat(4,1fr)"] {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Chart grids: single column */
+    div[style*="grid-template-columns:2fr 1fr 1fr"],
+    div[style*="grid-template-columns:1fr 1fr"],
+    div[style*="grid-template-columns:1fr 1fr;"] {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* Header */
+    div[style*="height:48px"] { height: auto !important; padding: 8px 12px !important; flex-wrap: wrap; gap: 8px; }
+
+    /* Tables: horizontal scroll */
+    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tbl { min-width: 520px; }
+    .tbl td, .tbl th { font-size: 11px; padding: 6px 8px; }
+
+    /* Intel boxes */
+    .intel-box { padding: 12px 14px; }
+    .intel-box p { font-size: 12px; }
+
+    /* KPI cards */
+    .kpi-card { padding: 12px 14px; }
+    .kpi-val { font-size: 22px !important; }
+
+    /* Chart cards */
+    .chart-card { padding: 12px; }
+    canvas { max-height: 220px; }
+
+    /* Bloco headers in insights */
+    div[style*="grid-template-columns:repeat(5,1fr);gap:10px"] {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+    div[style*="grid-template-columns:repeat(4,1fr);gap:10px"] {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Sidebar toggle button */
+    #sidebar-toggle { display: flex !important; }
+  }
+
+  /* Sidebar overlay for mobile */
+  #sidebar-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+
+  #sidebar.mobile-open {
+    display: block !important;
+    position: fixed;
+    top: 0; left: 0;
+    height: 100vh;
+    z-index: 1000;
+    width: 280px;
+    overflow-y: auto;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+  }
+
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 999;
+  }
+  #sidebar-overlay.active { display: block; }
+
 </style>
 </head>
 <body>
 
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
 <div id="loading">
   <div class="spinner"></div>
   <div style="font-family:'Space Mono',monospace;font-size:13px;color:var(--muted);">Carregando Dashboard VIP...</div>
@@ -218,7 +319,8 @@ console.warn = (...args) => {
       <div style="width:1px;height:20px;background:var(--border);"></div>
       <div style="font-size:12px;color:var(--muted);">Dashboard Operacional de Clientes VIP</div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div id="sidebar-toggle" onclick="toggleSidebar()" title="Filtros">&#9776;</div>
       <span class="pulse-dot"></span>
       <span style="font-size:11px;color:#64748b;" id="last-update">—</span>
       <label class="upload-zone" style="padding:6px 12px;border-radius:6px;font-size:12px;color:#64748b;border-style:dashed;border-width:1px;cursor:pointer;" title="Importar CSV">
@@ -1988,6 +2090,41 @@ document.getElementById('csv-upload').addEventListener('change', function(e) {
 // ============================================================
 // INIT
 // ============================================================
+
+// Responsive grid handler
+function applyResponsiveGrids() {
+  const isMobile = window.innerWidth <= 600;
+  const isTablet = window.innerWidth <= 900;
+  // KPI row
+  const kpiRow = document.querySelector('[style*="repeat(5,1fr)"]');
+  if (kpiRow) kpiRow.style.gridTemplateColumns = isMobile ? 'repeat(2,1fr)' : 'repeat(5,1fr)';
+  // Chart rows with 3 columns
+  document.querySelectorAll('[style*="2fr 1fr 1fr"]').forEach(el => {
+    el.style.gridTemplateColumns = isMobile ? '1fr' : '2fr 1fr 1fr';
+  });
+  // Chart rows with 2 columns
+  document.querySelectorAll('[style*="grid-template-columns:1fr 1fr"]').forEach(el => {
+    el.style.gridTemplateColumns = isMobile ? '1fr' : '1fr 1fr';
+  });
+  // Insights KPI rows (4 and 5 cols)
+  document.querySelectorAll('[style*="repeat(4,1fr)"], [style*="repeat(5,1fr)"]').forEach(el => {
+    el.style.gridTemplateColumns = isMobile ? 'repeat(2,1fr)' : el.style.gridTemplateColumns.includes('5') ? 'repeat(5,1fr)' : 'repeat(4,1fr)';
+  });
+  // Sidebar: hide on tablet
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar && !sidebar.classList.contains('mobile-open')) {
+    sidebar.style.display = isTablet ? 'none' : '';
+  }
+}
+window.addEventListener('resize', applyResponsiveGrids);
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('active');
+}
+
 window.addEventListener('load', () => {
   const mock = generateMockData().map(enrichRow);
   allData = mock;
@@ -1996,6 +2133,7 @@ window.addEventListener('load', () => {
   renderAll();
   document.getElementById('loading').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
+  applyResponsiveGrids();
 });
 </script>
 </body>
