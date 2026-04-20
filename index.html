@@ -694,30 +694,37 @@ function isHoliday(date) {
 // SLA TABLE — exact VIP SLAs by tipo+priority (hours)
 // ============================================================
 const SLA_TABLE = {
-  'sistema inoperante':                    { urgent:10 },
-  'sistema indisponível':                  { urgent:10 },
-  'erro geral':                            { urgent:10 },
+  // Sistema
+  'sistema inoperante':                    { urgent:10, high:10, medium:10, low:10 },
+  'sistema indisponível':                  { urgent:10, high:10, medium:10, low:10 },
+  'erro geral':                            { urgent:10, high:10, medium:10, low:10 },
+  // Erro Relacionado
   'erro relacionado':                      { urgent:40, high:140, medium:180, low:300 },
-  'erro relacionado':                      { urgent:40, high:140, medium:180, low:300 },
+  // Problema de Desempenho
   'problema de desempenho':                { urgent:30, high:100, medium:150, low:250 },
   'performace || prevision':               { urgent:30, high:100, medium:150, low:250 },
   'performance || prevision':              { urgent:30, high:100, medium:150, low:250 },
+  // Erro do Sistema / Incidente
   'erro do sistema':                       { urgent:30, high:100, medium:150, low:250 },
   'incidente || prevision':                { urgent:30, high:100, medium:150, low:250 },
   'incidente  interno':                    { urgent:30, high:100, medium:150, low:250 },
-  'dúvidas e orientações':                 { medium:15 },
-  'dúvida || prevision':                   { medium:15 },
-  'esclarecimentos de cálculo do sistema': { medium:50 },
-  'consultoria ao canal de venda':         { medium:50 },
-  'consultoria de sistema':                { medium:50 },
-  'consultoria de sistema ao cliente':     { medium:50 },
+  // Dúvidas — 15h para TODAS as prioridades
+  'dúvidas e orientações':                 { urgent:15, high:15, medium:15, low:15 },
+  'dúvida || prevision':                   { urgent:15, high:15, medium:15, low:15 },
+  // Consultoria / Esclarecimento
+  'esclarecimentos de cálculo do sistema': { urgent:50, high:50, medium:50, low:50 },
+  'consultoria ao canal de venda':         { urgent:50, high:50, medium:50, low:50 },
+  'consultoria de sistema':                { urgent:50, high:50, medium:50, low:50 },
+  'consultoria de sistema ao cliente':     { urgent:50, high:50, medium:50, low:50 },
+  // Intervenção na Base
   'intervenção na base':                   { urgent:60, high:100, medium:150, low:180 },
-  'criação de base dc':                    { medium:30 },
-  'ativação de apis':                      { medium:50 },
-  'ativação de connectors':                { medium:50 },
-  'cópia de base (on premise)':            { medium:30 },
-  'atendimento ecd / ecf / coi':           { medium:50 },
-  // No SLA types
+  // Outros com SLA
+  'criação de base dc':                    { urgent:30, high:30, medium:30, low:30 },
+  'ativação de apis':                      { urgent:50, high:50, medium:50, low:50 },
+  'ativação de connectors':                { urgent:50, high:50, medium:50, low:50 },
+  'cópia de base (on premise)':            { urgent:30, high:30, medium:30, low:30 },
+  'atendimento ecd / ecf / coi':           { urgent:50, high:50, medium:50, low:50 },
+  // Sem SLA
   'alteração / implementação':             { _nosla:true },
   'sugestões e melhorias':                 { _nosla:true },
   'sugestão e melhorias || prevision':     { _nosla:true },
