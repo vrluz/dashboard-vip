@@ -1060,7 +1060,7 @@ function enrichRow(r) {
   const vip = VIP_DICT[r.empresa] || {};
   r.segmento = vip.segmento || 'Outro';
   r.canal = vip.canal || 'Desconhecido';
-  r.csm = vip.csm || r.agente || 'N/A';
+  r.csm = vip.csm || 'N/A'; // CSM vem exclusivamente do dicionário VIP, nunca do agente do ticket
   r.isVip = !!VIP_DICT[r.empresa];
   // Compute age in business hours
   const endDate = r.resolucao ? new Date(r.resolucao) : new Date();
