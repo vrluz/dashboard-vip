@@ -235,6 +235,25 @@ console.warn = (...args) => {
   }
   #sidebar-overlay.active { display: block; }
 
+
+  /* ============================================================
+     PRINT / PDF STYLES
+  ============================================================ */
+  @media print {
+    #sidebar, #sidebar-toggle, #sidebar-overlay,
+    .upload-zone, #csv-status, button { display: none !important; }
+    #topbar { display: none !important; }
+    body { background: #fff !important; }
+    #app { display: block !important; height: auto !important; }
+    #main-content { overflow: visible !important; padding: 10px !important; }
+    .tab-content { display: block !important; page-break-after: always; }
+    .tab-content:last-child { page-break-after: avoid; }
+    .chart-card, .kpi-card, .intel-box { break-inside: avoid; }
+    .tbl-wrap { overflow: visible !important; max-height: none !important; }
+    canvas { max-height: 300px !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+
 </style>
 </head>
 <body>
@@ -321,6 +340,7 @@ console.warn = (...args) => {
     </div>
     <div style="display:flex;align-items:center;gap:10px;">
       <div id="sidebar-toggle" onclick="toggleSidebar()" title="Filtros">&#9776;</div>
+      <button onclick="exportPDF()" style="padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;background:#1e3a5f;color:#fff;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;" title="Exportar PDF">Exportar PDF</button>
       <span class="pulse-dot"></span>
       <span style="font-size:11px;color:#64748b;" id="last-update">—</span>
       <div style="display:flex;align-items:center;gap:8px;">
@@ -1532,21 +1552,15 @@ function renderTab0(data) {
   const canalCounts = {};
   data.forEach(r => { canalCounts[r.canal]=(canalCounts[r.canal]||0)+1; });
   const canalKeys = Object.keys(canalCounts).sort();
-  mkChart('ch-canal','bar', canalKeys.map(k => k.length > 14 ? k.slice(0,13)+'…' : k),
-    [{ label:'Tickets', data: canalKeys.map(k=>canalCounts[k]), backgroundColor: CHART_COLORS.slice(0,canalKeys.length) }],
-    {
-      indexAxis: 'y',
-      plugins: { legend: { display: false }, datalabels: {
-        display: true, color: '#1a2535', font: { size: 10, weight: '600' },
-        anchor: 'end', align: 'right', offset: 4,
-        formatter: (value, ctx) => {
-          const dataset = ctx.chart.data.datasets[0].data;
-          const total = dataset.reduce((a,b) => a+(b||0), 0);
-          const pct = total > 0 ? ((value/total)*100).toFixed(1) : 0;
-          return value + ' (' + pct + '%)';
-        }, clip: false
-      }}
-    }
+  // Sort canal by value descending
+  const canalSorted = Object.entries(canalCounts).sort((a,b) => b[1]-a[1]);
+  const canalSortedKeys = canalSorted.map(e => e[0]);
+  const canalSortedVals = canalSorted.map(e => e[1]);
+  const canalTotal = canalSortedVals.reduce((a,b)=>a+b,0);
+  mkChart('ch-canal','bar',
+    canalSortedKeys,
+    [{ label:'Tickets', data: canalSortedVals, backgroundColor: CHART_COLORS.slice(0,canalSortedKeys.length), borderRadius:4 }],
+    { plugins: { legend: { display: false } } }
   );
 
   // Top clients
@@ -1674,7 +1688,7 @@ function renderTab1(data) {
       const overDays = (r.ageDays - r.slaLimitDays).toFixed(1);
       const statusCell = includeStatus ? `<td><span class="tag tag-gray">${r.status}</span></td>` : '';
       return `<tr class="${rowClass}">
-        <td><span style="font-family:'Space Mono',monospace;font-size:11px;">#${r.id}</span></td>
+        <td><a href="https://softplan7189029973484399.freshdesk.com/a/tickets/${r.id}" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Freshdesk">#${r.id}</a></td>
         <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
         <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}${stale?'<span class="tag tag-red" style="margin-left:6px;font-size:9px;">Desatualizado</span>':''}</td>
         <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.empresa}">${r.empresa||'—'}</td>
@@ -1726,7 +1740,7 @@ function renderTab2(data) {
     const stale = r.lastUpdateDays > 15;
     const rowClass = stale ? 'row-stale' : '';
     return `<tr class="${rowClass}">
-      <td><span style="font-family:'Space Mono',monospace;font-size:11px;">#${r.id}</span></td>
+      <td><a href="https://softplan7189029973484399.freshdesk.com/a/tickets/${r.id}" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Freshdesk">#${r.id}</a></td>
       <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
       <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto}</td>
       <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.empresa}</td>
@@ -1880,7 +1894,7 @@ function renderTab4(data) {
     const prioColor = {urgent:'tag-red',high:'tag-yellow',medium:'tag-blue',low:'tag-gray'}[r.prioridade]||'tag-gray';
     const rowStyle = stale ? 'background:rgba(239,68,68,0.12);' : '';
     return `<tr style="${rowStyle}">
-      <td><span style="font-family:'Space Mono',monospace;font-size:11px;">#${r.id}</span></td>
+      <td><a href="https://softplan7189029973484399.freshdesk.com/a/tickets/${r.id}" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Freshdesk">#${r.id}</a></td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}</td>
       <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">${r.empresa||'—'}</td>
       <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);">${r.grupo||'—'}</td>
@@ -1979,7 +1993,7 @@ function renderTab4(data) {
     const ageColor = r.ageDays > 90 ? '#dc2626' : r.ageDays > 30 ? '#d97706' : '#2e5fa3';
     const teamLabel = r.timeDev || '<span style="color:var(--muted);font-size:10px;">—</span>';
     return `<tr style="${rowStyle}">
-      <td><span style="font-family:'Space Mono',monospace;font-size:11px;">#${r.id}</span></td>
+      <td><a href="https://softplan7189029973484399.freshdesk.com/a/tickets/${r.id}" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Freshdesk">#${r.id}</a></td>
       <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}</td>
       <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">${r.empresa||'—'}</td>
@@ -2139,6 +2153,29 @@ function applyResponsiveGrids() {
   }
 }
 window.addEventListener('resize', applyResponsiveGrids);
+
+function exportPDF() {
+  // Show all tabs for printing then restore
+  const tabs = document.querySelectorAll('.tab-content');
+  const btns = document.querySelectorAll('.tab-btn');
+  const activeTab = document.querySelector('.tab-content.active');
+  const activeBtn = document.querySelector('.tab-btn.active');
+
+  // Ask user which tabs to print
+  const options = ['Resumo Executivo','Radar Operacional','Evolutivas & Melhorias','Análise de Gargalos','Insights Executivos'];
+  const selected = confirm('Exportar TODAS as abas? \nOK = todas as abas\nCancelar = apenas aba atual');
+
+  if (selected) {
+    tabs.forEach(t => t.classList.add('active'));
+  }
+  setTimeout(() => {
+    window.print();
+    if (selected) {
+      tabs.forEach(t => t.classList.remove('active'));
+      if (activeTab) activeTab.classList.add('active');
+    }
+  }, 300);
+}
 
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
