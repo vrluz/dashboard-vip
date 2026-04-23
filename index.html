@@ -1689,7 +1689,7 @@ function renderTab1(data) {
       const statusCell = includeStatus ? `<td><span class="tag tag-gray">${r.status}</span></td>` : '';
       return `<tr class="${rowClass}">
         <td><a href="https://softplan7189029973484399.freshdesk.com/a/tickets/${r.id}" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Freshdesk">#${r.id}</a></td>
-        <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
+        <td>${r.jiraKey ? `<a href="https://gruposoftplan.atlassian.net/browse/${r.jiraKey}" target="_blank" style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Jira">${r.jiraKey}</a>` : '—'}</td>
         <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}${stale?'<span class="tag tag-red" style="margin-left:6px;font-size:9px;">Desatualizado</span>':''}</td>
         <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.empresa}">${r.empresa||'—'}</td>
         <td><span class="tag ${prioColor}">${r.prioridade}</span></td>
@@ -1741,7 +1741,7 @@ function renderTab2(data) {
     const rowClass = stale ? 'row-stale' : '';
     return `<tr class="${rowClass}">
       <td><a href="https://softplan7189029973484399.freshdesk.com/a/tickets/${r.id}" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Freshdesk">#${r.id}</a></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
+      <td>${r.jiraKey ? `<a href="https://gruposoftplan.atlassian.net/browse/${r.jiraKey}" target="_blank" style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Jira">${r.jiraKey}</a>` : '—'}</td>
       <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto}</td>
       <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.empresa}</td>
       <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#2e5fa3;">${r.tipo||'—'}</td>
@@ -1994,7 +1994,7 @@ function renderTab4(data) {
     const teamLabel = r.timeDev || '<span style="color:var(--muted);font-size:10px;">—</span>';
     return `<tr style="${rowStyle}">
       <td><a href="https://softplan7189029973484399.freshdesk.com/a/tickets/${r.id}" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Freshdesk">#${r.id}</a></td>
-      <td><span style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;">${r.jiraKey||'—'}</span></td>
+      <td>${r.jiraKey ? `<a href="https://gruposoftplan.atlassian.net/browse/${r.jiraKey}" target="_blank" style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Jira">${r.jiraKey}</a>` : '—'}</td>
       <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}</td>
       <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">${r.empresa||'—'}</td>
       <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#94a3b8;">${r.tipo||'—'}</td>
