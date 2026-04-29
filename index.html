@@ -414,6 +414,7 @@ console.warn = (...args) => {
         <button class="tab-btn" data-tab="2">Evolutivas & Melhorias</button>
         <button class="tab-btn" data-tab="3">Análise de Gargalos</button>
         <button class="tab-btn" data-tab="4">Insights Executivos</button>
+        <button class="tab-btn" data-tab="5">Alertas Preventivos</button>
       </div>
 
       <!-- CONTENT -->
@@ -687,6 +688,54 @@ console.warn = (...args) => {
             <div class="tbl-wrap" style="max-height:360px;">
               <table class="tbl" id="tbl-exec-dev"></table>
             </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 5: ALERTAS PREVENTIVOS -->
+        <div class="tab-content" id="tab-5">
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div>
+              <div style="font-size:15px;font-weight:600;">Alertas Preventivos — SLA em Andamento</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px;">Tickets ativos que ainda não venceram o SLA, ordenados pelo percentual consumido. Fique de olho antes que virem ofensores.</div>
+            </div>
+            <button class="btn" style="background:#1e3a5f;color:#fff;font-size:12px;font-weight:600;padding:7px 14px;border-radius:6px;cursor:pointer;border:none;" id="btn-export-prev">Exportar Preventivos (CSV)</button>
+          </div>
+
+          <!-- KPIs -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+            <div class="kpi-card">
+              <div class="kpi-val" id="prev-total">—</div>
+              <div class="kpi-label">Total Monitorados</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" style="color:#dc2626;" id="prev-critical">—</div>
+              <div class="kpi-label">Criticos (&gt;70% SLA)</div>
+              <div class="kpi-sub bad" id="prev-critical-sub"></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" style="color:#d97706;" id="prev-attention">—</div>
+              <div class="kpi-label">Atenção (30–70% SLA)</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" style="color:#2e5fa3;" id="prev-safe">—</div>
+              <div class="kpi-label">Tranquilos (&lt;30% SLA)</div>
+            </div>
+          </div>
+
+          <!-- Sections -->
+          <div style="margin-bottom:14px;">
+            <div class="section-title">Abertos <span id="prev-count-open" style="font-family:'Space Mono',monospace;color:#dc2626;font-size:11px;margin-left:8px;"></span></div>
+            <div class="tbl-wrap"><table class="tbl" id="tbl-prev-open"></table></div>
+          </div>
+          <div style="margin-bottom:14px;">
+            <div class="section-title">Pendentes <span id="prev-count-pending" style="font-family:'Space Mono',monospace;color:#d97706;font-size:11px;margin-left:8px;"></span></div>
+            <div class="tbl-wrap"><table class="tbl" id="tbl-prev-pending"></table></div>
+          </div>
+          <div>
+            <div class="section-title">Outros Status <span id="prev-count-others" style="font-family:'Space Mono',monospace;color:#607080;font-size:11px;margin-left:8px;"></span></div>
+            <div class="tbl-wrap"><table class="tbl" id="tbl-prev-others"></table></div>
           </div>
 
         </div>
@@ -2008,6 +2057,101 @@ function renderTab4(data) {
 }
 
 // ============================================================
+// RENDER TAB 5: ALERTAS PREVENTIVOS
+// ============================================================
+function renderTab5(data) {
+  // Only active tickets WITH SLA that have NOT yet violated it
+  const active = data.filter(r => isActiveStatus(r.status));
+  const monitored = active.filter(r =>
+    r.slaLimitHours < 9999 * BUSINESS_HOURS_PER_DAY && // has SLA
+    !r.slaViolated                                       // not yet violated
+  );
+
+  // Sort by % of SLA consumed descending (most critical first)
+  monitored.sort((a, b) => {
+    const pctA = a.slaLimitHours > 0 ? a.ageHours / a.slaLimitHours : 0;
+    const pctB = b.slaLimitHours > 0 ? b.ageHours / b.slaLimitHours : 0;
+    return pctB - pctA;
+  });
+
+  // KPIs
+  const critical  = monitored.filter(r => r.ageHours / r.slaLimitHours >= 0.7);
+  const attention = monitored.filter(r => r.ageHours / r.slaLimitHours >= 0.3 && r.ageHours / r.slaLimitHours < 0.7);
+  const safe      = monitored.filter(r => r.ageHours / r.slaLimitHours < 0.3);
+
+  document.getElementById('prev-total').textContent     = monitored.length;
+  document.getElementById('prev-critical').textContent  = critical.length;
+  document.getElementById('prev-attention').textContent = attention.length;
+  document.getElementById('prev-safe').textContent      = safe.length;
+  document.getElementById('prev-critical-sub').textContent = critical.length ? 'Requer ação imediata' : '';
+
+  // Split by status
+  const openT    = monitored.filter(r => r.status === 'Open');
+  const pendingT = monitored.filter(r => r.status === 'Pending');
+  const othersT  = monitored.filter(r => !['Open','Pending'].includes(r.status));
+
+  document.getElementById('prev-count-open').textContent    = openT.length    ? `(${openT.length})`    : '';
+  document.getElementById('prev-count-pending').textContent = pendingT.length ? `(${pendingT.length})` : '';
+  document.getElementById('prev-count-others').textContent  = othersT.length  ? `(${othersT.length})`  : '';
+
+  const hdrBase = `<tr>
+    <th>Ticket</th><th>Jira Key</th><th>Assunto</th><th>Cliente</th>
+    <th>Tipo</th><th>Prioridade</th><th>SLA Consumido</th><th>Tempo Restante</th>
+  </tr>`;
+  const hdrOthers = `<tr>
+    <th>Ticket</th><th>Jira Key</th><th>Assunto</th><th>Cliente</th>
+    <th>Tipo</th><th>Prioridade</th><th>Status</th><th>SLA Consumido</th><th>Tempo Restante</th>
+  </tr>`;
+
+  function buildPrevRows(rows, includeStatus=false) {
+    if (!rows.length) return `<tr><td colspan="${includeStatus?9:8}" style="text-align:center;color:var(--muted);padding:16px;">Nenhum ticket nesta categoria.</td></tr>`;
+    return rows.map(r => {
+      const pct = r.slaLimitHours > 0 ? (r.ageHours / r.slaLimitHours) : 0;
+      const pctDisplay = (pct * 100).toFixed(1);
+      const remainH = Math.max(0, r.slaLimitHours - r.ageHours);
+      const remainD = (remainH / BUSINESS_HOURS_PER_DAY).toFixed(1);
+      const ageDays = r.ageDays.toFixed(1);
+      const slaLimitDays = r.slaLimitDays.toFixed(1);
+
+      // Color based on pct consumed
+      const barColor = pct >= 0.7 ? '#dc2626' : pct >= 0.3 ? '#d97706' : '#2e5fa3';
+      const barWidth = Math.min(100, pct * 100).toFixed(0);
+      const textColor = pct >= 0.7 ? '#dc2626' : pct >= 0.3 ? '#d97706' : '#2e5fa3';
+      const stale = r.lastUpdateDays > 7;
+      const prioColor = {urgent:'tag-red',high:'tag-yellow',medium:'tag-blue',low:'tag-gray'}[r.prioridade]||'tag-gray';
+      const statusCell = includeStatus ? `<td><span class="tag tag-gray" style="font-size:9px;">${r.status}</span></td>` : '';
+      const jiraCell = r.jiraKey
+        ? `<a href="https://gruposoftplan.atlassian.net/browse/${r.jiraKey}" target="_blank" style="font-family:'Space Mono',monospace;font-size:10px;color:#2e5fa3;text-decoration:none;font-weight:600;">${r.jiraKey}</a>`
+        : '—';
+
+      return `<tr style="${pct>=0.7?'background:rgba(220,38,38,0.04);':pct>=0.3?'background:rgba(217,119,6,0.04);':''}">
+        <td><a href="https://softplan7189029973484399.freshdesk.com/a/tickets/${r.id}" target="_blank" style="font-family:'Space Mono',monospace;font-size:11px;color:#2e5fa3;text-decoration:none;font-weight:600;" title="Abrir no Freshdesk">#${r.id}</a></td>
+        <td>${jiraCell}</td>
+        <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.assunto}">${r.assunto||'—'}${stale?'<span class="tag tag-yellow" style="margin-left:6px;font-size:9px;">Sem update</span>':''}</td>
+        <td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500;">${r.empresa||'—'}</td>
+        <td style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:#607080;">${r.tipo||'—'}</td>
+        <td><span class="tag ${prioColor}">${r.prioridade}</span></td>
+        ${statusCell}
+        <td>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="flex:1;background:#e2e8f0;border-radius:4px;height:6px;min-width:60px;">
+              <div style="width:${barWidth}%;background:${barColor};height:6px;border-radius:4px;transition:width 0.3s;"></div>
+            </div>
+            <span style="font-family:'Space Mono',monospace;font-size:11px;color:${textColor};font-weight:700;white-space:nowrap;">${pctDisplay}%</span>
+          </div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px;">${ageDays}d de ${slaLimitDays}d</div>
+        </td>
+        <td><span style="font-family:'Space Mono',monospace;font-size:11px;color:${textColor};">${remainD}d</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  document.getElementById('tbl-prev-open').innerHTML    = hdrBase   + buildPrevRows(openT);
+  document.getElementById('tbl-prev-pending').innerHTML = hdrBase   + buildPrevRows(pendingT);
+  document.getElementById('tbl-prev-others').innerHTML  = hdrOthers + buildPrevRows(othersT, true);
+}
+
+// ============================================================
 // RENDER ALL
 // ============================================================
 function renderAll() {
@@ -2020,6 +2164,7 @@ function renderAll() {
   renderTab2(analysisData);
   renderTab3(analysisData);
   renderTab4(analysisData);
+  renderTab5(analysisData);
 }
 
 // ============================================================
@@ -2061,6 +2206,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
       else if (tabIndex === 2) renderTab2(filteredData);
       else if (tabIndex === 3) renderTab3(filteredData);
       else if (tabIndex === 4) renderTab4(filteredData);
+      else if (tabIndex === 5) renderTab5(filteredData.filter(r => (r.grupo||'').toLowerCase() !== EXCLUDED_GROUP));
       // Resize any remaining charts in case dimensions were stale
       Object.values(charts).forEach(c => { try { c.resize(); } catch(e){} });
     });
@@ -2084,6 +2230,28 @@ document.getElementById('btn-clear').addEventListener('click', () => {
 document.getElementById('btn-export-sla').addEventListener('click', () => {
   const rows = filteredData.filter(r => r.slaViolated && isActiveStatus(r.status));
   exportCSV(rows.map(r => ({Ticket:r.id, JiraKey:r.jiraKey, Assunto:r.assunto, Cliente:r.empresa, Status:r.status, Prioridade:r.prioridade, Tipo:r.tipo, AgeHours:r.ageHours.toFixed(0), SLALimitHours:r.slaLimitHours, Grupo:r.grupo})), 'ofensores_sla.csv');
+});
+
+document.getElementById('btn-export-prev').addEventListener('click', () => {
+  const analysisData = filteredData.filter(r => (r.grupo||'').toLowerCase() !== EXCLUDED_GROUP);
+  const active = analysisData.filter(r => isActiveStatus(r.status));
+  const rows = active.filter(r => r.slaLimitHours < 9999 * BUSINESS_HOURS_PER_DAY && !r.slaViolated)
+    .sort((a,b) => (b.ageHours/b.slaLimitHours) - (a.ageHours/a.slaLimitHours));
+  exportCSV(rows.map(r => ({
+    Ticket: r.id,
+    JiraKey: r.jiraKey,
+    Assunto: r.assunto,
+    Cliente: r.empresa,
+    Tipo: r.tipo,
+    Prioridade: r.prioridade,
+    Status: r.status,
+    SLA_Consumido_Pct: ((r.ageHours/r.slaLimitHours)*100).toFixed(1)+'%',
+    Idade_Dias: r.ageDays.toFixed(1),
+    SLA_Limite_Dias: r.slaLimitDays.toFixed(1),
+    Restante_Dias: Math.max(0,(r.slaLimitHours-r.ageHours)/BUSINESS_HOURS_PER_DAY).toFixed(1),
+    Grupo: r.grupo,
+    CSM: r.csm
+  })), 'alertas_preventivos.csv');
 });
 
 document.getElementById('btn-export-evo').addEventListener('click', () => {
